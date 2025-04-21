@@ -11,8 +11,8 @@ SWEP.Spawnable = true -- this obviously has to be set to true
 SWEP.Category = "ArcCW - Horde" -- edit this if you like
 SWEP.AdminOnly = false
 
-SWEP.PrintName = "M72 LAW"
-SWEP.TrueName = "M72 Light Anti-Armor Weapon"
+SWEP.PrintName = "LAW"
+SWEP.TrueName = "Light Anti-Armor Weapon"
 SWEP.Trivia_Class = "Rocket Launcher"
 SWEP.Trivia_Desc = "Portable one-shot 66-mm unguided anti-tank weapon."
 SWEP.Trivia_Manufacturer = "NAMMO Defense Systems"
@@ -213,9 +213,9 @@ SWEP.Animations = {
     },
     ["reload"] = {
         Source = "reload",
-        Time = 3.2,
+        Time = 2.5,
         TPAnim = ACT_HL2MP_GESTURE_RELOAD_PISTOL,
-        FrameRate = 30,
+        FrameRate = 38.4,
         LHIK = true,
         LHIKIn = 0.5,
         LHIKOut = 0.2,

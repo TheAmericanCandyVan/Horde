@@ -47,9 +47,9 @@ SWEP.TracerCol = Color(255, 25, 25)
 SWEP.TracerWidth = 3
 
 SWEP.ChamberSize = 0 -- how many rounds can be chambered.
-SWEP.Primary.ClipSize = 3 -- DefaultClip is automatically set.
-SWEP.ExtendedClipSize = 3
-SWEP.ReducedClipSize = 3
+SWEP.Primary.ClipSize = 4 -- DefaultClip is automatically set.
+SWEP.ExtendedClipSize = 4
+SWEP.ReducedClipSize = 4
 
 SWEP.Recoil = 2
 SWEP.RecoilSide = 2
@@ -57,11 +57,14 @@ SWEP.MaxRecoilBlowback = 2
 
 SWEP.ShotgunReload = true
 SWEP.ManualAction = true
+SWEP.NoLastCycle = true -- Prevents cycling when empty
 
 -- Function to prevent post-reload cycling
 SWEP.Hook_PostReload = function(wep)
     wep.SetNeedCycle(false)
 end
+
+-- 
 
 -- SWEP.Delay = 60 / 300 -- 60 / RPM.
 SWEP.Num = 1 -- number of shots per trigger pull.
@@ -102,7 +105,6 @@ SWEP.SightTime = 0.175
 
 SWEP.SpeedMult = 0.95
 SWEP.SightedSpeedMult = 0.6
-SWEP.SightTime = 0.175
 
 SWEP.BarrelLength = 18
 
@@ -154,7 +156,7 @@ SWEP.Attachments = {
         PrintName = "Perk",
         Slot = "go_perk"
     },
-	{
+    {
         PrintName = "Charm",
         Slot = "charm",
         FreeSlot = true,
@@ -199,8 +201,8 @@ SWEP.Animations = {
         LHIKIn = 0.2,
         LHIKOut = 0.95,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Back", t = 27 / 30},
-            {s = "ArcCW_BO1.CL_Fwd", t = 29 / 30},
+            {s = "ArcCW_BO1.CL_Back", t = 26 / 30},
+            {s = "ArcCW_BO1.CL_Fwd", t = 28 / 30}
         },
     },
     ["fire"] = {
@@ -221,8 +223,8 @@ SWEP.Animations = {
         },
         Time = 69 / 50,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Back", t = 26 / 50},
-            {s = "ArcCW_BO1.CL_Fwd", t = 38 / 50},
+            {s = "ArcCW_BO1.CL_Back", t = 25 / 50},
+            {s = "ArcCW_BO1.CL_Fwd", t = 37 / 50}
         },
     },
     ["cycle_iron"] = {
@@ -232,62 +234,41 @@ SWEP.Animations = {
         Time = 69 / 50,
         SoundTable = {
             {s = "ArcCW_BO1.CL_Back", t = 26 / 50},
-            {s = "ArcCW_BO1.CL_Fwd", t = 38 / 50},
+            {s = "ArcCW_BO1.CL_Fwd", t = 38 / 50}
         },
     },
     ["sgreload_start"] = {
         Source = "reload_in",
-        Time = 30 / 45,
+        Time = 30 / 48,
         TPAnim = ACT_HL2MP_GESTURE_RELOAD_SHOTGUN,
         LHIK = true,
         LHIKIn = 0.5,
         LHIKOut = 0,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Back", t = 4 / 45},
-        },
-    },
-    ["sgreload_start_empty"] = {
-        Source = "reload_in_empty",
-        Time = 81 / 45,
-        TPAnim = ACT_HL2MP_GESTURE_RELOAD_SHOTGUN,
-        LHIK = true,
-        LHIKIn = 0.5,
-        LHIKOut = 0,
-        SoundTable = {
-            {s = "ArcCW_BO1.CL_Back", t = 4 / 45},
-            {s = "ArcCW_BO1.CL_Shell", t = 46 / 45},
+            {s = "ArcCW_BO1.CL_Back", t = 4 / 48}
         },
     },
     ["sgreload_insert"] = {
         Source = "reload_loop",
-        Time = 52 / 45,
+        Time = 52 / 48,
         TPAnim = ACT_HL2MP_GESTURE_RELOAD_SHOTGUN,
         TPAnimStartTime = 0.3,
         LHIK = true,
         LHIKIn = 0,
         LHIKOut = 0,
+        MinProgress = 17 / 48,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Shell", t = 17 / 45},
+            {s = "ArcCW_BO1.CL_Shell", t = 17 / 48}
         },
     },
     ["sgreload_finish"] = {
         Source = "reload_out",
-        Time = 36 / 45,
+        Time = 36 / 48,
         LHIK = true,
         LHIKIn = 0,
         LHIKOut = 1,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Fwd", t = 20 / 45},
-        },
-    },
-    ["sgreload_finish_empty"] = {
-        Source = "reload_out",
-        Time = 36 / 45,
-        LHIK = true,
-        LHIKIn = 0,
-        LHIKOut = 1,
-        SoundTable = {
-            {s = "ArcCW_BO1.CL_Fwd", t = 20 / 45},
+            {s = "ArcCW_BO1.CL_Fwd", t = 20 / 48}
         },
     },
     ["enter_sprint"] = {
@@ -336,6 +317,6 @@ sound.Add({
     level = 100,
     sound = {
         "^weapons/arccw/bo1_chinalake/load1.wav",
-        "^weapons/arccw/bo1_chinalake/load2.wav",
+        "^weapons/arccw/bo1_chinalake/load2.wav"
     }
 })

@@ -1,10 +1,6 @@
 GADGET.PrintName = "Exoskeleton"
 GADGET.Icon = "items/gadgets/exoskeleton.png"
-GADGET.Description =
-[[Using the active ability activates a short boost
-
-You cannot run
-Passively increases Global damage resistance by {2}]]
+GADGET.Description = "Using the active ability activates a short boost\n\nYou cannot run\nPassively increases Global damage resistance by {1}"
 
 GADGET.Duration = 0
 GADGET.Cooldown = 5

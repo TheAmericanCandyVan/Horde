@@ -5,7 +5,7 @@ GADGET.Droppable = true
 GADGET.Once = true
 GADGET.Active = true
 GADGET.Params = {
-    [1] = {value = 25},
+    [1] = { value = 25 },
 }
 GADGET.Hooks = {}
 

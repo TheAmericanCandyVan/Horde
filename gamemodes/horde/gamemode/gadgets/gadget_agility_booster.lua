@@ -4,7 +4,7 @@ GADGET.Icon = "items/gadgets/agility_booster.png"
 GADGET.Duration = 0
 GADGET.Cooldown = 0
 GADGET.Params = {
-    [1] = {value = 0.25, percent = true},
+    [1] = { value = 0.25, percent = true },
 }
 GADGET.Hooks = {}
 
