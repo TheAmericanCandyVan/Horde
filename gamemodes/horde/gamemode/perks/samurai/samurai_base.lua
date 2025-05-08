@@ -35,10 +35,11 @@ PERK.Hooks.Horde_OnSetPerk = function(ply, perk)
     end
 end
 
-hook.Add("Horde_PlayerMoveBonus", "Horde_SamuraiSpeed", function (ply, bonus_walk, bonus_run)
+hook.Add("Horde_PlayerMoveBonus", "Horde_SamuraiSpeed", function (ply, bonus_walk, bonus_run, bonus_jump)
     if not ply:Horde_GetPerk("samurai_base") then return end
     bonus_walk.increase = bonus_walk.increase + 0.4
     bonus_run.increase = bonus_run.increase + 0.4
+    bonus_jump.increase = bonus_jump.increase + 0.2
 end)
 
 PERK.Hooks.Horde_OnUnsetPerk = function(ply, perk)
@@ -62,7 +63,7 @@ PERK.Hooks.Horde_UseActivePerk = function (ply)
     for debuff, buildup in pairs(ply.Horde_Debuff_Buildup) do
         ply:Horde_ReduceDebuffBuildup(debuff, buildup*0.67)
     end
-    
+
     ply:Horde_SetSpamPerkCooldown(CurTime() + 0.25)
     local id = ply:SteamID()
 
