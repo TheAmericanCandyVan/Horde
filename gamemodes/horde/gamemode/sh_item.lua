@@ -508,8 +508,8 @@ function HORDE:GetDefaultItemsData()
     {Assault=true, Warden=true}, 10, 10, nil, nil, {Assault=2, Warden=2}, nil, {HORDE.DMG_BALLISTIC, HORDE.DMG_LIGHTNING})
     HORDE:CreateItem("Rifle",      "SCAR-L",         "arccw_horde_scarl", 3500, 8, "FN SCAR-L.\nAn assault rifle developed by Belgian manufacturer FN Herstal.\nLight version, chambered in 5.56x45mm NATO. \nEquipped with an M203 underbarrel cryo grenade launcher.\nPress USE+RELOAD to equip M203.",
     {Assault=true, Ghost=true}, 15, 10, nil, nil, {Assault=2, Ghost=2}, nil, {HORDE.DMG_BALLISTIC, HORDE.DMG_COLD})
-    HORDE:CreateItem("Rifle",      "OSIPR",          "arccw_horde_ar2",   3500, 9, "Overwatch Standard Issue Pulse Rifle.\n\nPress ZOOM or B to change firemode.\nFires regular ballistic ammo or energy balls.",
-    {Assault=true}, 15, -1, nil, "items/hl2/weapon_ar2.png", {Assault=5}, nil, {HORDE.DMG_BALLISTIC})
+    HORDE:CreateItem("Rifle",      "OSIPR",          "arccw_horde_ar2",   3500, 9, "Overwatch Standard Issue Pulse Rifle.\n\nPress ZOOM or B to change firemode.\nFires regular ballistic ammo or energy balls that deal Lightning damage and builds up Shock.",
+    {Assault=true}, 15, -1, nil, "items/hl2/weapon_ar2.png", {Assault=5}, nil, {HORDE.DMG_BALLISTIC, HORDE.DMG_LIGHTNING})
 
     HORDE:CreateItem("Rifle",      "Winchester LAR",     "arccw_horde_winchester",1000, 4, "Winchester Lever Action Rifle.\nAn all-time classic.",
     {Survivor=true, Ghost=true}, 10, -1, nil, nil, nil, nil, {HORDE.DMG_BALLISTIC})
@@ -630,14 +630,18 @@ function HORDE:GetDefaultItemsData()
     HORDE:CreateItem("Special",    "Rocket Turret",  "npc_vj_horde_rocket_turret",    1500,  4, "Aperture Science rocket turret.\n\nShoots mini-missiles that deal Blast damage.\nCovers all angles.",
     {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=3}, "items/rocket_turret.png", nil, nil, {HORDE.DMG_BLAST})
     HORDE:CreateItem("Special",    "Laser Turret",  "npc_vj_horde_laser_turret",    1500,  4, "Aperture Science laser turret.\n\nFires tracing laser at the enemy.\nCovers all angles.",
-    {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=3}, "items/laser_turret.png", {Engineer=5}, nil, {HORDE.DMG_BLAST})
+    {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=3}, "items/laser_turret.png", {Engineer=3}, nil, {HORDE.DMG_BLAST})
     HORDE:CreateItem("Special",    "Sniper Turret",  "npc_vj_horde_sniper_turret",   1500,  4, "Combine heavy sniper turret.\n\nCovers a long range and deals heavy damage, but with limited sight.\nAims for the head if possible.",
     {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=3}, "items/sniper_turret.png", {Engineer=4}, nil, {HORDE.DMG_BALLISTIC})
     HORDE:CreateItem("Special",    "Vortigaunt",     "npc_vj_horde_vortigaunt",  1750,  5, "Xen Vortigaunts that can conjure concentrated shock energy blasts.\nThe energy blasts have long range and deal splash damage.",
     {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=2}, "items/npc_vortigaunt.png", {Engineer=2}, nil, {HORDE.DMG_LIGHTNING})
     HORDE:CreateItem("Special",    "Combat Bot",     "npc_vj_horde_combat_bot",   2750, 8, "A resilient humanoid robot designed to engage enemies head-on.\nUses powerful melee attacks and ranged boulder attacks.",
     {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=1}, "items/npc_combat_bot.png", {Engineer=3}, nil, {HORDE.DMG_BLUNT})
-
+    HORDE:CreateItem("Special",    "Survivor",     "npc_vj_horde_class_survivor",   1250, 4, "A Survivor class human that acts as a multipurpose fighter. \nUses an AR15 rifle and grenades.",
+    {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=3}, "items/combine_merc.png", {Engineer=4}, nil, {HORDE.DMG_BALLISTIC})
+    HORDE:CreateItem("Special",    "Assault",     "npc_vj_horde_class_assault",   1750, 5, "An Assault class human that uses automatic rifles. \nUses an M16 rifle with M203 UBGL and stun grenades.",
+    {Engineer=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=2}, "items/combine_merc.png", {Engineer=5}, nil, {HORDE.DMG_BALLISTIC})
+    
     HORDE:CreateItem("Special",    "Hivehand",       "horde_hivehand",       2000,  5, "Organic weapon used by Xen soldiers.\nHas infinite ammo.\nPrimary fire generates homing ricocheting shots.\nSecondary fire rapidly unloads the entire weapon.",
     {Engineer=true}, 2, -1, nil, nil, {Engineer=4}, nil, {HORDE.DMG_BALLISTIC})
     HORDE:CreateItem("Special",    "Spore Launcher", "horde_spore_launcher", 1750,  6, "Improvised biological weapon.\nShoots out acidic projectiles that explodes after a short delay.\nHeals players and damages enemies.",
@@ -663,8 +667,8 @@ function HORDE:GetDefaultItemsData()
     HORDE:CreateItem("Special",    "Watchtower Type-Beacon",  "horde_watchtower_beacon", 2000,  4, "A watchtower that acts as a shop during waves.\nProvides additional lighting.\n(Entity Class: horde_watchtower_beacon)",
     {Warden=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=1}, "items/horde_watchtower.png", nil, nil, nil)
 
-    HORDE:CreateItem("Special",    "Heat Crossbow",  "arccw_horde_heat_crossbow", 1750,  4, "Improvised sniper weapon.\nHas two firemodes (Ballistic/Impact).\n\nDeals 300% headshot damage.",
-    {Survivor=true, Ghost=true}, 2, -1, nil, "items/hl2/weapon_crossbow.png", nil, nil, {HORDE.DMG_BALLISTIC})
+    HORDE:CreateItem("Special",    "Heat Crossbow",  "arccw_horde_heat_crossbow", 2000,  5, "Improvised sniper weapon.\nHas two firemodes that can be swapped between to deal either Ballistic or Fire damage.\n\nDeals 300% headshot damage.",
+    {Survivor=true, Ghost=true, Cremator=true}, 1, -1, nil, "items/hl2/weapon_crossbow.png", nil, nil, {HORDE.DMG_BALLISTIC, HORDE.DMG_FIRE})
     HORDE:CreateItem("Special",    "M2 Flamethrower", "horde_m2",            2500,  7, "M2-2 Flamethrower.\nAn American man-portable backpack flamethrower.",
     {Cremator=true}, 50, -1, nil, nil, nil, nil, {HORDE.DMG_FIRE})
     HORDE:CreateItem("Special",    "Tau Cannon",      "horde_tau",         3000,  7, "A device that uses electromagnetism to ionize particles.\nHold RMB to charge and release a powerful shot.\nDeals more damage as you charge.\nDevice explodes if you overcharge.",

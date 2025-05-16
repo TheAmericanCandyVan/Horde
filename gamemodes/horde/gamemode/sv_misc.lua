@@ -26,7 +26,7 @@ function HORDE:GetAntlionMinionsCount(ply)
     local count = 0
     if not HORDE.player_drop_entities[ply:SteamID()] then return 0 end
     for id, ent in pairs(HORDE.player_drop_entities[ply:SteamID()]) do
-        if ent:IsNPC() and ent:GetClass() == "npc_vj_horde_antlion" then
+        if IsValid( ent ) and ent:IsNPC() and ent:GetClass() == "npc_vj_horde_antlion" then
             count = count + 1
         end
     end
@@ -130,6 +130,8 @@ function HORDE:SpawnManhack(ply, id)
         ent:AddRelationship("npc_vj_horde_vortigaunt D_LI 99")
         ent:AddRelationship("npc_vj_horde_combat_bot D_LI 99")
         ent:AddRelationship("npc_turret_floor D_LI 99")
+        ent:AddRelationship("npc_vj_horde_class_survivor D_LI 99")
+        ent:AddRelationship("npc_vj_horde_class_assault D_LI 99")
         ent.VJ_NPC_Class = {"CLASS_PLAYER_ALLY"}
     end)
     ent:SetOwner(ply)
