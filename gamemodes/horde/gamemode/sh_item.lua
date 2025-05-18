@@ -391,11 +391,15 @@ function HORDE:GetDefaultItemsData()
     HORDE:CreateItem("Pistol",     "9mm",            "arccw_horde_9mm",   50,  1, "Combine standard sidearm.",
     nil, 2, -1, nil, "items/hl2/weapon_pistol.png", nil, nil, {HORDE.DMG_BALLISTIC}, nil, {"Engineer", "Demolition", "Survivor", "Psycho"})
     HORDE:CreateItem("Pistol",     "Medic 9mm",       "arccw_horde_medic_9mm", 75,  1, "Modified 9mm that provides ranged healing.\n\nPress B or ZOOM to fire healing darts.\nHealing dart recharges every 1 second.",
-    {Medic=true}, 2, -1, nil, "items/weapon_medic_9mm.png", nil, nil, {HORDE.DMG_BALLISTIC, HORDE.DMG_POISON}, nil, {"Medic"})
+    {Medic=true}, 2, -1, nil, "items/weapon_medic_9mm.png", nil, nil, {HORDE.DMG_BALLISTIC, HORDE.DMG_POISON}, nil, {"Medic", "Hatcher"})
     HORDE:CreateItem("Pistol",     "357",            "arccw_horde_357",        100,  2, "Colt python magnum pistol.\nUsed by Black Mesa security guards.",
     {Ghost=true}, 2, -1, nil, "items/hl2/weapon_357.png", nil, nil, {HORDE.DMG_BALLISTIC}, nil, {"Ghost", "Gunslinger"})
     HORDE:CreateItem("Pistol",     "Flare Gun",      "arccw_horde_flaregun",   100,  2, "Orion Safety Flare Gun.\nIgnites enemies and deals Fire damage. \nDraws from reserve ammo rather than reloading manually.",
     {Cremator=true}, 1, -1, nil, nil, nil, nil, {HORDE.DMG_FIRE}, nil, {"Cremator"})
+    HORDE:CreateItem("Pistol", "Flare Gun (Hidden)", "projectile_horde_flaregun_flare", 0, 0,
+        "This item is only here in the Pistol category to calculate pistol damage.", 
+        { Cremator = true, Gunslinger = true }, 10, -1, { type = HORDE.ENTITY_PROPERTY_DROP, x = 50, z = 15, yaw = 0, limit = 0 }, 
+        nil, nil, nil, { HORDE.DMG_FIRE }, nil, nil, true) --This must be hidden
     HORDE:CreateItem("Pistol",     "Glock",          "arccw_horde_glock",    750,  2, "Glock 18.\nSemi-automatic pistols manufactured in Austrian.",
     {Medic=true, Assault=true, Heavy=true, Demolition=true, Survivor=true, Engineer=true, Warden=true, Cremator=true}, 5, -1, nil, "arccw/weaponicons/arccw_go_glock", nil, nil, {HORDE.DMG_BALLISTIC})
     HORDE:CreateItem("Pistol",     "USP",            "arccw_horde_usp",      750,  2, "Universelle Selbstladepistole.\nA semi-automatic pistol developed in Germany by H&K.",
@@ -423,7 +427,7 @@ function HORDE:GetDefaultItemsData()
     HORDE:CreateItem("Pistol",     "Skorpion",          "arccw_horde_skorpion",    1000,  3, "Sa vz. 61 Skorpion.\nDeveloped in 1959 by Miroslav Rybar and produced \nunder the official designation 'Samopal vzor 61'.",
     {Medic=true, Assault=true, Heavy=true, Demolition=true, Survivor=true, Engineer=true, Warden=true, Cremator=true}, 8, -1, nil, nil, nil, nil, {HORDE.DMG_BALLISTIC})
     HORDE:CreateItem("Pistol",     "Masterkey",          "arccw_horde_masterkey",    1250,  3, "Usually seen mounted as an underbarrel shotgun intended for breaching doors\nthis Masterkey is fitted with a removeable grip\nfor use as an easily concealable shotgun.",
-    {Medic = true, Assault = true, Heavy = true, Demolition = true, Survivor = true, Engineer = true, Warden = true, Cremator = true}, 5, -1, nil, nil, nil, nil, {HORDE.DMG_BALLISTIC})
+    {Medic = true, Assault = true, Heavy = true, Demolition = true, Survivor = true, Engineer = true, Warden = true, Cremator = true, Ghost = true, Berserker = true}, 5, -1, nil, nil, nil, nil, {HORDE.DMG_BALLISTIC})
 
     HORDE:CreateItem("Pistol",     "Dual M9",        "arccw_horde_akimbo_m9",       1500,  4, "Dual Beretta M9.\nSidearm used by the United States Armed Forces.",
     {Ghost=true}, 5, -1, nil, nil, nil, nil, {HORDE.DMG_BALLISTIC})
@@ -601,8 +605,8 @@ function HORDE:GetDefaultItemsData()
     --{Demolition=true}, 15, -1, nil, nil, nil, nil, {HORDE.DMG_BLAST}, {HORDE.Infusion_Quality})
     HORDE:CreateItem("Explosive",  "M79 GL",         "arccw_horde_m79",    1500,  5, "M79 Grenade Launcher.\nShoots 40x46mm grenades that explode on impact.",
     {Demolition=true, Survivor=true}, 10, -1, nil, nil, nil, nil, {HORDE.DMG_BLAST}, {HORDE.Infusion_Quality})
-    HORDE:CreateItem("Explosive",  "China Lake GL",         "arccw_horde_chinalake",    2100,  6, "Pump-Action Grenade Launcher.\nHolds a total of four 40mm grenades,\nand cycles similar to a pump-action shotgun.",
-    {Demolition=true}, 36, -1, nil, nil, {Demolition=2}, nil, {HORDE.DMG_BLAST}, {HORDE.Infusion_Quality})
+    HORDE:CreateItem("Explosive",  "China Lake GL",         "arccw_horde_chinalake",    2000,  6, "Pump-Action Grenade Launcher.\nHolds a total of four 40mm grenades,\nand cycles similar to a pump-action shotgun. \nPress B or ZOOM to switch grenade type.",
+    {Demolition=true, Survivor=true, Cremator=true, Warden=true, }, 30, -1, nil, nil, {Demolition=2}, nil, {HORDE.DMG_BLAST, HORDE.DMG_FIRE, HORDE.DMG_LIGHTNING, HORDE.DMG_COLD}, {HORDE.Infusion_Quality})
     HORDE:CreateItem("Explosive",  "Sticky Launcher",  "horde_sticky_launcher", 2500,  7, "Sticky grenade launcher.\nLaunches grenades that stick to surfaces and entities.\n\nRMB to detonate.",
     {Demolition=true}, 50, -1, nil, nil, {Demolition=2}, nil, {HORDE.DMG_BLAST}, {HORDE.Infusion_Quality})
     HORDE:CreateItem("Explosive",  "M32 GL",         "arccw_horde_m32",    3000,  8, "Milkor Multiple Grenade Launcher.\nA lightweight 40mm six-shot revolver grenade launcher.",
@@ -646,13 +650,17 @@ function HORDE:GetDefaultItemsData()
     {Engineer=true}, 2, -1, nil, nil, {Engineer=4}, nil, {HORDE.DMG_BALLISTIC})
     HORDE:CreateItem("Special",    "Spore Launcher", "horde_spore_launcher", 1750,  6, "Improvised biological weapon.\nShoots out acidic projectiles that explodes after a short delay.\nHeals players and damages enemies.",
     {Medic=true, Survivor=true}, 10, -1, nil, nil, {Medic=2, Survivor=2}, nil, {HORDE.DMG_POISON})
-    HORDE:CreateItem("Special",    "M2 Health Thrower", "horde_healingthrower", 3000,  7, "M2-2 Health Thrower.\nAn American man-portable backpack flamethrower converted to heal stuff to death.\nsmells faintly of lime and mint (who hurt you)",
+    HORDE:CreateItem("Special",    "M2 Health Thrower", "horde_healingthrower", 3250,  7, "M2-2 Health Thrower.\nAn American man-portable backpack flamethrower converted to heal stuff to death.\nsmells faintly of lime and mint (who hurt you)",
     {Medic=true}, 35, -1, nil, nil, nil, nil, {HORDE.DMG_POISON})
-    HORDE:CreateItem("Explosive",  "Medic RPG",          "arccw_horde_medic_rpg",   3000,  8, "Medic Missile.\nAnti-Death Rocket Propelled Grenade \nmade in the Gamestop ventilation of an abandoned mall. \nnot to be confused with the infamous magic missile.",
+    HORDE:CreateItem("Explosive",  "Medic RPG",          "arccw_horde_medic_rpg",   3500,  8, "Medic Missile.\nAnti-Death Rocket Propelled Grenade \nmade in the Gamestop ventilation of an abandoned mall. \nnot to be confused with the infamous magic missile.",
     {Medic=true}, 15, -1, nil, nil, nil, nil, {HORDE.DMG_POISON})
 
-    HORDE:CreateItem("Explosive",    "Raygun",  "arccw_horde_raygun", 3000,  8, "Raygun. \nFires explosive electric bolts that deal Lightning damage.",
-    {Warden=true}, 40, -1, nil, nil, nil, nil, {HORDE.DMG_LIGHTNING})
+    HORDE:CreateItem("Pistol",    "Raygun",  "arccw_horde_raygun", 3000,  8, "Raygun. \nFires explosive electric bolts that deal Lightning damage.",
+    {Warden=true}, 20, -1, nil, nil, nil, nil, {HORDE.DMG_LIGHTNING})
+    HORDE:CreateItem("Pistol", "Raygun (Hidden)", "horde_projectile_raygun_bolt", 0, 0,
+        "This item is only here in the Pistol category to calculate pistol damage.", 
+        { Warden = true, Gunslinger = true }, 10, -1, { type = HORDE.ENTITY_PROPERTY_DROP, x = 50, z = 15, yaw = 0, limit = 0 }, 
+        nil, nil, nil, { HORDE.DMG_LIGHTNING }, nil, nil, true) --This must be hidden
 
     HORDE:CreateItem("Special",    "Watchtower",      "horde_watchtower",        800,  1, "A watchtower that provides resupply.\nGenerates 1 ammobox every 30 seconds.\n(Entity Class: horde_watchtower)",
     {Warden=true}, 10, -1, {type=HORDE.ENTITY_PROPERTY_DROP, x=50, z=15, yaw=0, limit=2}, "items/horde_watchtower.png")
