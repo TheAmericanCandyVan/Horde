@@ -110,6 +110,20 @@ function SWEP:Initialize()
 		if self:GetOwner() and not self:GetOwner():IsValid() then return end
 		self:GetOwner():SetAmmo(100, "Thumper")
 	end)
+
+	if CLIENT then return end
+
+	local id = self:EntIndex()
+	timer.Create("horde_pheropod_holstered_regen" .. id, 0.75, 0, function()
+		if not self:GetOwner():IsValid() then timer.Remove("horde_pheropod_holstered_regen" .. id) return end
+		if self:GetOwner():GetActiveWeapon():GetClass() == "horde_pheropod" then return end
+		self:RegenAmmo()
+	end)
+end
+
+function SWEP:RegenAmmo()
+	if self:Clip1() >= self.Primary.MaxAmmo then return end
+	self:SetClip1(math.min(self.Primary.MaxAmmo, self:Clip1() + 1))
 end
 
 function SWEP:PrimaryAttack()
@@ -139,7 +153,7 @@ function SWEP:Throw(level)
 	ent:SetPos( self:GetOwner():EyePos() + ( self:GetOwner():GetAimVector() * 10 ) )
 	ent:SetAngles( self:GetOwner():EyeAngles() )
 	ent.properties = {level = 1, type = self.VirusType}
-	ent.Owner = self:GetOwner()
+	ent:SetOwner(self:GetOwner())
 	ent:Spawn()
 	local phys = ent:GetPhysicsObject()
 	if (  !IsValid( phys ) ) then ent:Remove() return end
@@ -190,29 +204,9 @@ function SWEP:RaiseAntlion()
 	ent:Spawn()
 
 	timer.Simple(0.1, function ()
-		ent:AddRelationship("player D_LI 99")
-		ent:AddRelationship("ally D_LI 99")
-		if HORDE.items["npc_vj_horde_vortigaunt"] then
-			ent:AddRelationship("npc_vj_horde_vortigaunt D_LI 99")
-		end
-		if HORDE.items["npc_vj_horde_combat_bot"] then
-			ent:AddRelationship("npc_vj_horde_combat_bot D_LI 99")
-		end
-		if HORDE.items["npc_turret_floor"] then
-			ent:AddRelationship("npc_turret_floor D_LI 99")
-		end
 		if HORDE.items["npc_manhack"] then
 			ent:AddRelationship("npc_manhack D_LI 99")
 		end
-		if HORDE.items["npc_vj_horde_class_survivor"] then
-			ent:AddRelationship("npc_vj_horde_class_survivor D_LI 99")
-		end
-		if HORDE.items["npc_vj_horde_class_assault"] then
-			ent:AddRelationship("npc_vj_horde_class_assault D_LI 99")
-		end
-		ent:AddRelationship("npc_vj_horde_spectre D_LI 99")
-		ent:AddRelationship("npc_vj_horde_shadow_hulk D_LI 99")
-		ent:AddRelationship("npc_vj_horde_headcrab D_LI 99")
 
 		ply:Horde_SetMinionCount(ply:Horde_GetMinionCount() + 1)
 		ent:CallOnRemove("Horde_EntityRemoved", function()
@@ -296,6 +290,14 @@ function SWEP:Think()
 
 	if SERVER and self.EnergyRegenTimer <= CurTime() then
 		self.EnergyRegenTimer = CurTime() + 0.25
-		self:SetClip1(math.min(self.Primary.MaxAmmo, self:Clip1() + 1))
+		self:RegenAmmo()
 	end
+end
+
+function SWEP:OnRemove()
+	timer.Stop("horde_pheropod_holstered_regen" .. self:EntIndex())
+end
+
+function SWEP:OnDrop()
+	self:Remove()
 end

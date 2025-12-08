@@ -180,29 +180,29 @@ SWEP.Attachments = {
     }, --6
 }
 
-SWEP.Animations = {
+SWEP.Animations = { // Sounds play at ([Anim Frame] / [Anim Frame Count]) * [Anim Time]
     ["idle"] = {
         Source = "idle",
         Time = 1 / 30,
     },
     ["draw"] = {
         Source = "draw",
-        Time = 1,
+        Time = 0.55,
         LHIK = true,
         LHIKIn = 0.2,
         LHIKOut = 0.2,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Sight", t = 22 / 50}
+            {s = "ArcCW_BO1.CL_Sight", t = (22 / 50) * 0.55} // (22 / 50) * 0.55
         },
     },
     ["holster"] = {
         Source = "holster",
-        Time = 1,
+        Time = 0.55,
         LHIK = true,
         LHIKIn = 0.2,
         LHIKOut = 0.1,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Sight", t = 20 / 40}
+            {s = "ArcCW_BO1.CL_Sight", t = (20 / 40) * 0.55} //
         },
     },
     ["ready"] = {
@@ -212,73 +212,73 @@ SWEP.Animations = {
         LHIKOut = 0.95,
         SoundTable = {
             {s = "ArcCW_BO1.CL_Back", t = 26 / 30},
-            {s = "ArcCW_BO1.CL_Fwd", t = 28 / 30}
+            {s = "ArcCW_BO1.CL_Fwd", t = 28 / 30} 
         },
     },
     ["fire"] = {
         Source = {
             "fire",
         },
-        MinProgress = 0.5
+        MinProgress = 0.3
     },
     ["fire_iron"] = {
         Source = {
             "fire",
         },
-        MinProgress = 0.5
+        MinProgress = 0.3
     },
     ["cycle"] = {
         Source = {
             "pump",
         },
-        Time = 69 / 50,
+        Time = 1.4, // (35 / 25)
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Back", t = 25 / 50},
-            {s = "ArcCW_BO1.CL_Fwd", t = 37 / 50}
+            {s = "ArcCW_BO1.CL_Back", t = (24 / 68) * 1.4}, 
+            {s = "ArcCW_BO1.CL_Fwd", t = (35 / 68) * 1.4} 
         },
     },
     ["cycle_iron"] = {
         Source = {
             "pump",
         },
-        Time = 69 / 50,
+        Time = 1.4,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Back", t = 26 / 50},
-            {s = "ArcCW_BO1.CL_Fwd", t = 38 / 50}
+            {s = "ArcCW_BO1.CL_Back", t = (24 / 68) * 1.4}, 
+            {s = "ArcCW_BO1.CL_Fwd", t = (35 / 68) * 1.4} 
         },
     },
     ["sgreload_start"] = {
         Source = "reload_in",
-        Time = 30 / 48,
+        Time = 0.375, // (12 / 32)
         TPAnim = ACT_HL2MP_GESTURE_RELOAD_SHOTGUN,
         LHIK = true,
         LHIKIn = 0.5,
         LHIKOut = 0,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Back", t = 4 / 48}
+            {s = "ArcCW_BO1.CL_Back", t = (2 / 29) * 0.375} // (2 / 29) * (12 / 32)
         },
     },
     ["sgreload_insert"] = {
         Source = "reload_loop",
-        Time = 52 / 48,
+        Time = 0.52,
         TPAnim = ACT_HL2MP_GESTURE_RELOAD_SHOTGUN,
         TPAnimStartTime = 0.3,
         LHIK = true,
         LHIKIn = 0,
         LHIKOut = 0,
-        MinProgress = 17 / 48,
+        MinProgress = (22 / 51) * 0.52,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Shell", t = 17 / 48}
+            {s = "ArcCW_BO1.CL_Shell", t = (16 / 51) * 0.52}
         },
     },
     ["sgreload_finish"] = {
         Source = "reload_out",
-        Time = 36 / 48,
+        Time = 0.75,
         LHIK = true,
         LHIKIn = 0,
         LHIKOut = 1,
         SoundTable = {
-            {s = "ArcCW_BO1.CL_Fwd", t = 20 / 48}
+            {s = "ArcCW_BO1.CL_Fwd", t = (15 / 35) * 0.75}
         },
     },
     ["enter_sprint"] = {

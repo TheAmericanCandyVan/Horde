@@ -5,7 +5,7 @@ include('shared.lua')
 	No parts of this code or any of its contents may be reproduced, copied, modified or adapted,
 	without the prior written consent of the author, unless otherwise indicated for stand-alone materials.
 -----------------------------------------------*/
-ENT.Model = {"models/combine_turrets/ground_turret.mdl"} -- The game will pick a random model from the table when the SNPC is spawned | Add as many as you want
+ENT.Model = "models/combine_turrets/floor_turret.mdl" -- The game will pick a random model from the table when the SNPC is spawned | Add as many as you want
 ENT.StartHealth = 400
 ENT.SightDistance = 8000
 ENT.HullType = HULL_HUMAN
@@ -77,14 +77,29 @@ ENT.SoundTbl_RangeAttack = {
 	"npc/sniper/sniper1.wav"
 }
 
-ENT.Immune_AcidPoisonRadiation = true -- Makes the SNPC not get damage from Acid, posion, radiation
+ENT.Horde_Immune_Status = {
+	[HORDE.Status_Bleeding] = true,
+	[HORDE.Status_Frostbite] = true,
+	[HORDE.Status_Ignite] = true,
+	[HORDE.Status_Break] = true,
+	[HORDE.Status_Necrosis] = true,
+	[HORDE.Status_Hemorrhage] = true,
+}
+ENT.Immune_AcidPoisonRadiation = true
 
-function ENT:CustomOnInitialize()
-	self:SetCollisionBounds(Vector(13, 13, 60), Vector(-13, -13, 0))
-	timer.Simple(0.1, function ()
-		self:SetAngles(Angle(0,0,180))
-		self:SetModelScale(1.5)
-		HORDE:DropTurret(self)
+function ENT:CustomOnInitialize() -- phoenix_storms/stripes
+	self:SetModelScale(1.3, 0)
+	self:SetCollisionBounds(Vector(15, 15, 60), Vector(-15, -15, 0))
+	self:PhysicsInit(SOLID_VPHYSICS)
+	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
+
+	self:SetMaterial("phoenix_storms/stripes")
+	self:SetColor(Color(150, 0, 0))
+
+	timer.Simple(0, function()
+		timer.Simple(0.1, function()
+			HORDE:DropTurret(self)
+		end)
 	end)
 end
 
@@ -162,20 +177,8 @@ VJ.AddNPC("Sniper Turret","npc_vj_horde_sniper_turret", "Horde")
 ENT.Horde_TurretMinion = true
 
 function ENT:Follow(ply)
-	if self:GetNWEntity("HordeOwner") == ply then
-		--local p = self:GetPos()
-		--p.z = ply:GetPos().z
-		local a = self:GetAngles()
-		self:SetAngles(Angle(a.x,a.y,180))
-		--self:SetPos(p)
-		self:PhysicsInit(SOLID_VPHYSICS)
-        ply:PickupObject(self)
-		self:GetPhysicsObject():EnableMotion(true)
-		self.Horde_Pickedup = true
-		timer.Simple(0.2, function ()
-			if self:IsValid() then
-				self.Horde_Pickedup = nil
-			end
-		end)
-    end
+	if self:GetNWEntity("HordeOwner") ~= ply then return end
+
+	self:GetPhysicsObject():EnableMotion(true)
+	ply:PickupObject(self)
 end

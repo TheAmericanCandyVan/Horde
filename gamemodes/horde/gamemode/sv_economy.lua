@@ -326,7 +326,7 @@ function plymeta:Horde_SyncEconomy()
         net.Send( self )
     end
 
-    if not table.IsEmpty( selfTbl.Horde_drop_entities ) then
+    if selfTbl.Horde_drop_entities and not table.IsEmpty( selfTbl.Horde_drop_entities ) then
         local json = util.TableToJSON( selfTbl.Horde_drop_entities )
         local crc = util.CRC( json )
         if selfTbl.Horde_drop_entities_crc ~= crc then
@@ -364,7 +364,7 @@ hook.Add("PlayerSpawn", "Horde_Economy_Sync", function (ply)
     hook.Run("Horde_ResetStatus", ply)
     net.Start("Horde_ClearStatus")
     net.Send(ply)
-    ply:SetCustomCollisionCheck(true)
+
     HORDE.refresh_living_players = true
 
     if HORDE.start_game and HORDE.current_break_time <= 0 then
@@ -449,24 +449,25 @@ hook.Add("PlayerCanPickupWeapon", "Horde_Economy_Pickup", function (ply, wpn)
 
     if HORDE.items[wpn:GetClass()] then
         local item = HORDE.items[wpn:GetClass()]
+        local class = ply:Horde_GetCurrentSubclass()
         if (ply:Horde_GetWeight() - item.weight < 0) then
             return false
         end
         if ply:Horde_GetCurrentSubclass() == "Gunslinger" and item.category == "Pistol" then return true end
-        if (item.whitelist and (not item.whitelist[ply:Horde_GetClass().name])) then
+        if (item.whitelist and (not item.whitelist[class])) then
             return false
         end
 
         if item.starter_classes then
-            if (item.class == "horde_void_projector" and ply:Horde_GetCurrentSubclass() ~= "Necromancer") or
-               (item.class == "horde_solar_seal" and ply:Horde_GetCurrentSubclass() ~= "Artificer") or
-               (item.class == "horde_astral_relic" and ply:Horde_GetCurrentSubclass() ~= "Warlock") or
-               (item.class == "horde_carcass" and ply:Horde_GetCurrentSubclass() ~= "Carcass") or
-               (item.class == "horde_pheropod" and ply:Horde_GetCurrentSubclass() ~= "Hatcher") then
+            if (item.class == "horde_void_projector" and class ~= "Necromancer") or
+               (item.class == "horde_solar_seal" and class ~= "Artificer") or
+               (item.class == "horde_astral_relic" and class ~= "Warlock") or
+               (item.class == "horde_carcass" and class ~= "Carcass") or
+               (item.class == "horde_pheropod" and class ~= "Hatcher") then
                 return false
             end
         end
-        if ply:Horde_GetCurrentSubclass() == "Carcass"
+        if class == "Carcass"
         and (item.class ~= "horde_carcass" and item.class ~= "weapon_horde_medkit") then
             return false
         end
@@ -480,14 +481,15 @@ end)
 
 hook.Add("WeaponEquip", "Horde_Economy_Equip", function (wpn, ply)
     if not ply:IsValid() then return end
+    local class = ply:Horde_GetCurrentSubclass()
     if HORDE.items[wpn:GetClass()] then
         local item = HORDE.items[wpn:GetClass()]
-        if ply:Horde_GetCurrentSubclass() == "Gunslinger" and item.category == "Pistol" then
+        if class == "Gunslinger" and item.category == "Pistol" then
             ply:Horde_AddWeight(-item.weight)
             ply:Horde_SyncEconomy()
             return
         end
-        if (ply:Horde_GetWeight() - item.weight < 0) or (item.whitelist and (not item.whitelist[ply:Horde_GetClass().name])) then
+        if (ply:Horde_GetWeight() - item.weight < 0) or (item.whitelist and (not item.whitelist[class])) then
             timer.Simple(0, function ()
                 ply:DropWeapon(wpn)
             end)
@@ -550,9 +552,6 @@ net.Receive("Horde_BuyItem", function (len, ply)
                     end
                 end
 
-                -- Prevent players from purchasing turrets if they have the manhack skill.
-                if item.class == "npc_turret_floor" and ply:Horde_GetPerk("engineer_manhack") then return end
-
                 ply:Horde_AddMoney(-price)
                 ply:Horde_AddSkullTokens(-skull_tokens)
                 ply:Horde_AddWeight(-item.weight)
@@ -578,9 +577,6 @@ net.Receive("Horde_BuyItem", function (len, ply)
                         end
                         if HORDE.items["npc_vj_horde_combat_bot"] then
                             ent:AddRelationship("npc_vj_horde_combat_bot D_LI 99")
-                        end
-                        if HORDE.items["npc_turret_floor"] then
-                            ent:AddRelationship("npc_turret_floor D_LI 99")
                         end
                         if HORDE.items["npc_manhack"] then
                             ent:AddRelationship("npc_manhack D_LI 99")
@@ -611,20 +607,11 @@ net.Receive("Horde_BuyItem", function (len, ply)
 
                     -- Special case for turrets
                     local id = ent:GetCreationID()
-                    if ent:GetClass() == "npc_turret_floor" then
+                    ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
+                    timer.Simple(0.1, function ()
+                        if not ent:IsValid() then return end
                         ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
-                        timer.Simple(0.1, function ()
-                            if not ent:IsValid() then return end
-                            ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
-                        end)
-                        HORDE:DropTurret(ent)
-                    else
-                        ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
-                        timer.Simple(0.1, function ()
-                            if not ent:IsValid() then return end
-                            ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
-                        end)
-                    end
+                    end)
 
                     -- Count Minions
                     ply:Horde_SetMinionCount(ply:Horde_GetMinionCount() + 1)
@@ -736,48 +723,50 @@ function GM:PlayerUse(other_ply, target)    -- This will make it to be default b
     local owner = target:GetNWEntity("HordeOwner")
     if IsValid(owner) and other_ply ~= owner then return false end   -- If owner disconnected/not valid, why would we care about ownership?
 
-    if target:GetClass() == "npc_turret_floor" then
-        target:GetPhysicsObject():EnableMotion(true)
-    end
-
     return true
 end
 
 function HORDE:DropTurret(ent)
+    local turret_class = ent:GetClass()
     local turret_pos = ent:GetPos()
-    local tr = util.TraceLine({
+
+    local tr = util.TraceHull({
         start = turret_pos,
-        endpos = turret_pos + Vector(0,0,-1) * 10000,
-        filter = ent,
-        collisiongroup =  COLLISION_GROUP_WORLD
+        endpos = turret_pos + Vector(0, 0, -1) * 10000,
+        mins = ent:OBBMins(),
+        maxs = ent:OBBMaxs(),
+        filter = {"prop_static", "prop_dynamic"},
+        whitelist = true,
+        mask = MASK_SOLID,
     })
 
     if IsValid(tr.Entity) or tr.HitWorld then
         local dist_sqr = turret_pos:DistToSqr(tr.HitPos)
         -- If you drop turrets from somewhere too high, they will just fall over.
         if dist_sqr >= 40000 then return end
-        ent:SetPos(Vector(turret_pos.x, turret_pos.y, tr.HitPos.z + 15))
-        ent:DropToFloor()
-        timer.Simple(0.5, function()
-            if not ent:IsValid() then return end
-            ent:GetPhysicsObject():EnableMotion(false)
+        ent:SetPos(Vector(turret_pos.x, turret_pos.y, tr.HitPos.z) + vector_up)
+
+        if not ent:IsValid() then return end
+        timer.Simple(0, function()
+            local phys = ent:GetPhysicsObject()
+            if phys then
+                phys:EnableMotion(false)
+            end
         end)
     end
+
+    -- Turrets should always stay straight.
+    local ang = ent:GetAngles()
+    ang.p = 0
+    ang.r = 0
+    if turret_class == "npc_vj_horde_rocket_turret" or ent:GetClass() == "npc_vj_horde_laser_turret" then
+        ang.y = 0
+    end
+    ent:SetAngles(ang)
 end
 
 hook.Add("OnPlayerPhysicsDrop", "Horde_TurretDrop", function (ply, ent, thrown)
-    if ent:GetNWEntity("HordeOwner") and (ent:GetClass() == "npc_turret_floor" or (ent.Horde_TurretMinion and (not ent.Horde_Pickedup))) then
-        -- Turrets should always stay straight.
-        local a = ent:GetAngles()
-        if ent:GetClass() == "npc_vj_horde_sniper_turret" then
-        else
-            ent:SetAngles(Angle(0, a.y, 0))
-        end
-
-        if ent:GetClass() == "npc_vj_horde_rocket_turret" || ent:GetClass() == "npc_vj_horde_laser_turret" then
-            ent:SetAngles(Angle(0,0,0))
-        end
-
+    if ent:GetNWEntity("HordeOwner") and ent.Horde_TurretMinion then
         HORDE:DropTurret(ent)
     end
 end)
