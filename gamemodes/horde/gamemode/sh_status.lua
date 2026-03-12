@@ -44,6 +44,9 @@ HORDE:RegisterStatus("Hunter_Mark", "materials/status/hunter_mark.png", nil, nil
 HORDE:RegisterStatus("Smokescreen", "materials/perks/specops/smokescreen.png", nil, nil, true)
 HORDE:RegisterStatus("Flare", "materials/perks/specops/flare.png", nil, nil, true)
 HORDE:RegisterStatus("AAS_Perfume", "materials/perks/carcass/AAS_Perfume.png", nil, nil, true)
+HORDE:RegisterStatus("DarkEnergyBlast", "materials/perks/overlord/dark_energy_blast.png", nil, nil, true)
+HORDE:RegisterStatus("Juxtapose", "materials/perks/overlord/juxtapose.png", nil, nil, true)
+HORDE:RegisterStatus("DarkEnergyBlast", "materials/perks/overlord/dark_energy_blast.png", nil, nil, true)
 
 HORDE:RegisterStatus("Tactical_Mode", "materials/status/tactical_mode.png")
 HORDE:RegisterStatus("Camoflague", "materials/status/camoflague.png")
@@ -62,6 +65,7 @@ HORDE:RegisterStatus("Hypertrophy", "materials/status/hypertrophy.png", true)
 HORDE:RegisterStatus("SolarFlux", "materials/perks/artificer/solar_flux.png", true)
 HORDE:RegisterStatus("Bio_Thruster", "materials/perks/carcass/bio_thruster.png", true)
 HORDE:RegisterStatus("Twin_Heart", "materials/perks/carcass/twin_heart.png", true)
+HORDE:RegisterStatus("Hysteria", "materials/perks/overlord/despair.png", true)
 
 HORDE:RegisterStatus("Fortify", "materials/perks/fortify.png")
 HORDE:RegisterStatus("Berserk", "materials/perks/berserk.png")
@@ -115,6 +119,7 @@ HORDE:RegisterStatus("Freeze", "materials/status/frostbite.png", nil, true)
 HORDE:RegisterStatus("Weaken", "materials/perks/crude_casing.png", nil, true)
 HORDE:RegisterStatus("Hinder", "materials/perks/sticky_compound.png", nil, true)
 HORDE:RegisterStatus("Hemorrhage", "materials/status/hemorrhage.png", nil, true)
+HORDE:RegisterStatus("Fear", "materials/status/fear.png", nil, true)
 
 HORDE.Status_Buildup_Sounds = {}
 HORDE.Status_Buildup_Sounds[HORDE.Status_Bleeding] = "horde/status/bleeding_buildup.ogg"
@@ -133,12 +138,12 @@ HORDE.Status_Trigger_Sounds[HORDE.Status_Break] = "horde/status/break_trigger.og
 HORDE.Status_Trigger_Sounds[HORDE.Status_Necrosis] = "horde/status/necrosis_trigger.ogg"
 
 HORDE.Debuff_Notifications = {
-    [HORDE.Status_Bleeding] = "You are inflicted by Bleeding.\nYour health is removed over time.",
-    [HORDE.Status_Ignite] = "You are inflicted by Ignite.\nYou take Fire damage over time.",
-    [HORDE.Status_Frostbite] = "You are inflicted by Frostbite.\nYour movement speed is reduced.",
-    [HORDE.Status_Shock] = "You are inflicted by Shock.\nYou take increased damage from all sources.",
-    [HORDE.Status_Break] = "You are inflicted by Break.\nYour health is reduced drastically and will recover slowly.",
-    [HORDE.Status_Decay] = "You are inflicted by Decay.\nYou cannot heal.",
+    [HORDE.Status_Bleeding] = "You are Bleeding.\nYour health will slowly drain.",
+    [HORDE.Status_Ignite] = "You are on fire!",
+    [HORDE.Status_Frostbite] = "You've been afflicted with Frostbite.\nYour movement speed is greatly reduced.",
+    [HORDE.Status_Shock] = "You've been afflicted with Shock.\nYou'll take increased damage from all sources.",
+    [HORDE.Status_Break] = "You've been afflicted with Break.\nYour health is temporarily critical.",
+    [HORDE.Status_Decay] = "You've been afflicted with Decay.\nYou cannot heal.",
     [HORDE.Status_Psychosis] = "Y'ai 'ng'ngah, Yog-Sothoth h'ee - l'geb f'ai throdog uaaah.",
     [HORDE.Status_Necrosis] = "You are dying from Necrosis."
 }

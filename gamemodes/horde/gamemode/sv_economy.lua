@@ -64,8 +64,11 @@ function plymeta:Horde_SetMaxWeight(weight)
         if self.Horde_max_weight > weight then
             local old_max_weight = self:Horde_GetMaxWeight()
             self.Horde_max_weight = weight
-            self:Horde_RecalcWeight()
             self.Horde_weight = math.min(weight, self:Horde_GetWeight() - (old_max_weight - weight))
+            timer.Simple(0, function()
+                if not IsValid(self) then return end
+                self:Horde_RecalcWeight()
+            end)
             self:Horde_SyncEconomy()
         else
             self.Horde_weight = math.min(weight, self:Horde_GetWeight() + weight - self:Horde_GetMaxWeight())
@@ -350,7 +353,11 @@ function plymeta:Horde_RecalcWeight()
     for _, wpn in pairs(self:GetWeapons()) do
         if not HORDE.items[wpn:GetClass()] then goto cont end
         local wpn_weight = HORDE.items[wpn:GetClass()].weight
-        if weight + wpn_weight > self:Horde_GetMaxWeight() then
+        local gadget_weight = 0
+        if self:Horde_GetGadget() then
+            gadget_weight = HORDE.items[self:Horde_GetGadget()].weight
+        end
+        if weight + gadget_weight + wpn_weight > self:Horde_GetMaxWeight() then
             self:DropWeapon(wpn)
         else
             weight = weight + wpn_weight
@@ -360,20 +367,17 @@ function plymeta:Horde_RecalcWeight()
 end
 
 hook.Add("PlayerSpawn", "Horde_Economy_Sync", function (ply)
-    if ply.Horde_Fake_Respawn == true then return end
     hook.Run("Horde_ResetStatus", ply)
     net.Start("Horde_ClearStatus")
     net.Send(ply)
 
     HORDE.refresh_living_players = true
 
-    if HORDE.start_game and HORDE.current_break_time <= 0 then
-        if ply:IsValid() then
-            local ret = hook.Run( "Horde_OnPlayerShouldRespawnDuringWave", ply )
-            if not ret then
-                ply:KillSilent()
-                HORDE:SendNotification("You will respawn next wave.", 0, ply)
-            end
+    if ply:IsValid() and not ply.Horde_Fake_Respawn and HORDE.start_game and HORDE.current_break_time <= 0 then
+        local ret = hook.Run( "Horde_OnPlayerShouldRespawnDuringWave", ply )
+        if not ret then
+            ply:KillSilent()
+            HORDE:SendNotification("You will respawn next wave.", 0, ply)
         end
     end
 
@@ -382,6 +386,11 @@ hook.Add("PlayerSpawn", "Horde_Economy_Sync", function (ply)
     ply:Horde_SetMaxWeight(HORDE.max_weight)
     ply:Horde_ApplyPerksForClass()
     ply:Horde_SetWeight(ply:Horde_GetMaxWeight())
+    if ply.Horde_Special_Upgrades and next(ply.Horde_Special_Upgrades) ~= nil then
+        for spec_modules, _ in pairs(ply.Horde_Special_Upgrades) do
+            ply:Horde_AddWeight(-HORDE.items[spec_modules].weight)
+        end
+    end
     if ply.Horde_Special_Armor then
         net.Start("Horde_SyncSpecialArmor")
             net.WriteString(ply.Horde_Special_Armor)
@@ -407,7 +416,7 @@ hook.Add("PlayerSpawn", "Horde_Economy_Sync", function (ply)
     -- Reapply armor bonus if present
     ply:Horde_SetMaxArmor()
     ply:Horde_SyncEconomy()
-    if ply:Alive() and not (HORDE.start_game and HORDE.current_break_time <= 0) then
+    if ply:Alive() and not ply.Horde_Fake_Respawn and not (HORDE.start_game and HORDE.current_break_time <= 0) then
         HORDE:GiveStarterWeapons(ply)
     end
 
@@ -421,6 +430,8 @@ hook.Add("PlayerSpawn", "Horde_Economy_Sync", function (ply)
         end
         net.Send(ply)
     end
+
+    ply.Horde_Fake_Respawn = nil
 end)
 
 hook.Add("PlayerDroppedWeapon", "Horde_Economy_Drop", function (ply, wpn)
@@ -530,7 +541,7 @@ net.Receive("Horde_BuyItem", function (len, ply)
                 ply:SelectWeapon(class)
             elseif item.entity_properties.type == HORDE.ENTITY_PROPERTY_GIVE then
                 -- Give entity
-                if GetConVar("horde_default_item_config"):GetInt() == 1 and class == "item_battery" then
+                if GetConVar("horde_default_item_config"):GetInt() == 1 and class == "horde_armor_battery" then
                     -- Prevent distribution of batteries.
                     if ply:Armor() >= ply:GetMaxArmor() then return end
                 end
@@ -684,6 +695,15 @@ net.Receive("Horde_BuyItem", function (len, ply)
                 ply:Horde_AddMoney(-price)
                 ply:Horde_AddSkullTokens(-skull_tokens)
                 ply:Horde_SyncEconomy()
+            elseif item.entity_properties.type == HORDE.ENTITY_PROPERTY_SPECIAL_UPGRADE then
+                -- Experimental Upgrade System
+                ply:Horde_SetSpecialUpgrade(item.class)
+                -- ply:Horde_SetMaxHealth()
+                -- ply:Horde_SetMaxArmor()
+                ply:Horde_AddMoney(-price)
+                ply:Horde_AddSkullTokens(-skull_tokens)
+                ply:Horde_SyncEconomy()
+                hook.Run("Horde_OnSpecialUpgradeBuySell", ply)
             elseif item.entity_properties.type == HORDE.ENTITY_PROPERTY_GADGET then
                 ply:Horde_UnsetGadget()
                 ply:Horde_SetGadget(item.class)
@@ -775,6 +795,7 @@ net.Receive("Horde_SellItem", function (len, ply)
     if not ply:IsValid() then return end
     local class = net.ReadString()
     local canSell, why = hook.Call("CanSell", HORDE, ply, class)
+    print(class)
     if canSell == false then
         HORDE:SendNotification(why or "You can't sell this.", 1, ply)
         return
@@ -824,6 +845,10 @@ net.Receive("Horde_SellItem", function (len, ply)
                 ply:Horde_AddMoney(math.floor(0.75 * item.price * removedCount))
                 ply:Horde_SyncEconomy()
             end
+        elseif item.entity_properties.type == HORDE.ENTITY_PROPERTY_SPECIAL_UPGRADE then
+            ply:Horde_UnsetSpecialUpgrade(item.class)
+            ply:Horde_SyncEconomy()
+            hook.Run("Horde_OnSpecialUpgradeBuySell", ply)
         elseif item.entity_properties.type == HORDE.ENTITY_PROPERTY_GADGET then
             if ply:Horde_GetGadget() == nil then return end
             ply:Horde_UnsetGadget()
@@ -895,6 +920,13 @@ net.Receive("Horde_SelectClass", function (len, ply)
         ply:DropWeapon(wpn)
     end
     ply:Horde_SetSubclass(name, subclass_name)
+
+    -- Sell and remove all upgrades
+    if ply.Horde_Special_Upgrades then
+        for upgrades in pairs(ply.Horde_Special_Upgrades) do
+            ply:Horde_UnsetSpecialUpgrade(upgrades)
+        end
+    end
 
     -- Remove all entities
     if HORDE.player_drop_entities[ply:SteamID()] then

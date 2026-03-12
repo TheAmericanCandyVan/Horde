@@ -199,6 +199,8 @@ RunConsoleCommand("vj_npc_bleedenemyonmelee", "0")
 RunConsoleCommand("vj_npc_nocallhelp", "1")
 RunConsoleCommand("vj_npc_nowandering", "1")
 RunConsoleCommand("vj_npc_nogib", "1") -- Since we use our own gibbing system, there should be no need to call for VJ Base gibbing system.
+RunConsoleCommand("vj_npc_nopropattack", "0") -- Ensure NPCs can attack props (also func_breakable such as castle keep's gate)
+RunConsoleCommand("vj_npc_noproppush", "0") -- Ensure NPCs can push props
 
 -- Util functions
 function HORDE:GiveAmmo(ply, wpn, count)
@@ -324,3 +326,63 @@ function HORDE.Queue:Create()
     end
     return t
   end
+
+  --Custom Line of sight check
+local function checkInSight(trace, targetent, advanced)
+  if(!advanced) then
+    trace.endpos = trace.endpos + targetent:OBBCenter()
+    return util.TraceLine(trace).Fraction == 1
+  else
+    if(util.TraceLine(trace).Fraction == 1) then return true end
+    trace.endpos = trace.endpos + targetent:OBBCenter()
+    if(util.TraceLine(trace).Fraction == 1) then return true end
+    trace.endpos = targetent:GetPos() + Vector(0, 0, targetent:OBBMaxs().z)
+    if(util.TraceLine(trace).Fraction == 1) then return true end
+    return false
+  end
+end
+
+--[[
+    checkmode :
+        1 = Use Entity position for origin
+        2 = Use Vector Given for origin
+
+    originEntity = Entity that will be used for origin, only available when checkmode is 1
+    originEntityCenter = Use origin entity's center position for origin
+    originVector = Vector that will be used for origin, only available when checkmode is 2
+    targetEntity = Entity to check
+
+    advancedCheck = Use three points (Bottom, Center, Top) to check visibility, Will be 3x costy
+    maxAngle = Maximum angle offset to target, leave empty to skip this check, only available when checkmode is 1
+]]
+function HORDE.IsInSight(data)
+    local mode = data.checkmode || 1
+    if(mode == 1) then
+        local origin = data.originEntity:GetPos()
+        if(data.originEntityCenter) then
+            origin = origin + originEntity:OBBCenter()
+        end
+        local pos = data.targetEntity:GetPos()
+        if(data.maxAngle) then
+            local y1 = data.originEntity:GetAngles().y
+            local y2 = (pos - origin):Angle().y
+            if(math.NormalizeAngle(y1 - y2) > data.maxAngle) then
+                return false
+            end
+        end
+        local tr = {
+            start = origin,
+            endpos = pos,
+            mask = MASK_SOLID_BRUSHONLY,
+        }
+        return checkInSight(tr, data.targetEntity, data.advancedCheck)
+    else
+        local pos = data.targetEntity:GetPos()
+        local tr = {
+            start = data.originVector,
+            endpos = pos,
+            mask = MASK_SOLID_BRUSHONLY,
+        }
+        return checkInSight(tr, data.targetEntity, data.advancedCheck)
+    end
+end

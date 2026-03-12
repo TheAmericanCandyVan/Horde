@@ -1,5 +1,8 @@
 if SERVER then
-util.AddNetworkString("Horde_SyncExp")
+    util.AddNetworkString("Horde_XPNotification")
+    util.AddNetworkString("Horde_SyncExp")
+    util.AddNetworkString("Horde_SyncLevel")
+    util.AddNetworkString("Horde_SyncAllLevels")
 end
 
 HORDE.Rank_Novice = "Novice" -- 0 - 4
@@ -24,30 +27,59 @@ HORDE.Rank_Colors = {
 }
 
 function HORDE:ScrubSteamID(ply)
-	return ply:SteamID():gsub(":", "_")
+    return ply:SteamID():gsub(":", "_")
 end
 
 local plymeta = FindMetaTable("Player")
 
 function plymeta:Horde_GetExp(class_name)
     if not self.Horde_Exps then self.Horde_Exps = {} end
-    if SERVER then
-    end
+
     return self.Horde_Exps[class_name] or 0
 end
 
 function plymeta:Horde_SetExp(class_name, exp)
-    if SERVER then
-    end
     if not self:IsValid() then return end
     if not self.Horde_Exps then self.Horde_Exps = {} end
     if not class_name then return end
+
     self.Horde_Exps[class_name] = exp
+
     local level = self:Horde_GetLevel(class_name)
     if exp >= HORDE:GetExpToNextLevel(level + 1) then
         self:Horde_SetLevel(class_name, level + 1)
         self.Horde_Exps[class_name] = 0
+        exp = 0
     end
+
+    if SERVER then
+        net.Start("Horde_SyncExp")
+            net.WriteString(class_name)
+            net.WriteUInt(exp, 32)
+        net.Send(self)
+    end
+end
+
+function plymeta:Horde_GiveExp(class_name, exp, label)
+    if not self:IsValid() then return end
+    if not self.Horde_Exps then self.Horde_Exps = {} end
+    if not class_name then return end
+
+    local extraXp = self.Horde_ExtraXP or 0
+    local whole = math.floor(exp + extraXp)
+
+    self.Horde_ExtraXP = math.max(0, extraXp + exp - whole)
+
+    self:Horde_SetExp(class_name, self:Horde_GetExp(class_name) + whole, label)
+
+    if CLIENT then return end
+    if exp <= 0 then return end
+    if not label or label == "" then return end
+
+    net.Start("Horde_XPNotification")
+        net.WriteString(label)
+        net.WriteDouble(exp, 32)
+    net.Send(self)
 end
 
 function plymeta:Horde_GetLevel(class_name)
@@ -59,12 +91,19 @@ function plymeta:Horde_SetLevel(class_name, level)
     if not self:IsValid() then return end
     if not self.Horde_Levels then self.Horde_Levels = {} end
     if not class_name then return end
+
     self.Horde_Levels[class_name] = level
     local rank, rank_level = HORDE:LevelToRank(level)
     self:Horde_SetRankLevel(class_name, rank_level)
     self:Horde_SetRank(class_name, rank)
 
     if SERVER then
+        net.Start("Horde_SyncLevel")
+            net.WriteEntity(self)
+            net.WriteString(class_name)
+            net.WriteUInt(level, 8)
+        net.Broadcast()
+
         hook.Run("Horde_PrecomputePerkLevelBonus", self)
     end
 end
@@ -101,15 +140,19 @@ function plymeta:Horde_SetRank(class_name, rank)
     self.Horde_Ranks[class_name] = rank
 end
 
-function plymeta:Horde_SyncExp()
-    for subclass_name, subclass in pairs(HORDE.subclasses) do
-        net.Start("Horde_SyncExp")
-            net.WriteEntity(self)
+function plymeta:Horde_SyncAllLevels()
+    if not SERVER then return end
+
+    net.Start("Horde_SyncAllLevels")
+        local subclass_count = table.Count(HORDE.subclasses) or 0
+
+        net.WriteUInt(subclass_count, 16)
+
+        for _, subclass in pairs(HORDE.subclasses) do
             net.WriteString(subclass.PrintName)
-            net.WriteUInt(self:Horde_GetExp(subclass.PrintName), 32)
             net.WriteUInt(self:Horde_GetLevel(subclass.PrintName), 8)
-        net.Broadcast()
-    end
+        end
+    net.Send(self)
 end
 
 function HORDE:GetExpToNextLevel(level)
@@ -119,7 +162,9 @@ end
 function HORDE:LevelToRank(level)
     if level < 30 then
         local rank = HORDE.Rank_Novice
+
         if level < 5 then
+            return rank, level % 5
         elseif level < 10 then
             rank = HORDE.Rank_Amateur
         elseif level < 15 then
@@ -131,6 +176,7 @@ function HORDE:LevelToRank(level)
         elseif level < 30 then
             rank = HORDE.Rank_Champion
         end
+
         return rank, level % 5
     else
         return HORDE.Rank_Master, level - 30
@@ -138,13 +184,60 @@ function HORDE:LevelToRank(level)
 end
 
 if CLIENT then
-net.Receive("Horde_SyncExp", function(length)
-    local ply = net.ReadEntity()
-    local class_name = net.ReadString()
-    local exp = net.ReadUInt(32)
-    local level = net.ReadUInt(8)
-    if not ply:IsValid() then return end
-    ply:Horde_SetLevel(class_name, level)
-    ply:Horde_SetExp(class_name, exp)
-end)
+    net.Receive( "Horde_XPNotification", function()
+        local ply = LocalPlayer()
+        local label = net.ReadString()
+        local diff = net.ReadDouble()
+
+        if not ply:IsValid() then return end
+        if label == "" then return end
+        if diff <= 0 then return end
+
+        HORDE:PlayXPNotification(diff, label)
+    end )
+
+    net.Receive("Horde_SyncExp", function()
+        local class_name = net.ReadString()
+        local exp = net.ReadUInt(32)
+        local ply = LocalPlayer()
+
+        if not ply:IsValid() then return end
+
+        if not ply.Horde_Exps then ply.Horde_Exps = {} end
+        ply.Horde_Exps[class_name] = exp
+    end)
+
+    net.Receive("Horde_SyncLevel", function()
+        local ply = net.ReadEntity()
+        local class_name = net.ReadString()
+        local level = net.ReadUInt(8)
+
+        if not ply:IsValid() then return end
+
+        if not ply.Horde_Levels then ply.Horde_Levels = {} end
+        ply.Horde_Levels[class_name] = level
+
+        local rank, rank_level = HORDE:LevelToRank(level)
+        ply:Horde_SetRankLevel(class_name, rank_level)
+        ply:Horde_SetRank(class_name, rank)
+    end)
+
+    net.Receive("Horde_SyncAllLevels", function()
+        local ply = LocalPlayer()
+        local subclass_count = net.ReadUInt(16)
+
+        if not ply:IsValid() then return end
+
+        for _ = 1, subclass_count do
+            local class_name = net.ReadString()
+            local level = net.ReadUInt(8)
+
+            if not ply.Horde_Levels then ply.Horde_Levels = {} end
+            ply.Horde_Levels[class_name] = level
+
+            local rank, rank_level = HORDE:LevelToRank(level)
+            ply:Horde_SetRankLevel(class_name, rank_level)
+            ply:Horde_SetRank(class_name, rank)
+        end
+    end)
 end
