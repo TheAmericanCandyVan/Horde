@@ -360,7 +360,7 @@ function HORDE:GetDefaultItemInfusions()
     HORDE.items["arccw_horde_mg4"].infusions = ballistic_infusions_mg_rifles
     HORDE.items["arccw_horde_m240"].infusions = ballistic_infusions_mg_rifles
     HORDE.items["arccw_horde_rpd"].infusions = ballistic_infusions_mg_rifles
-    HORDE.items["arccw_horde_aug_hbar"].infusions = ballistic_infusions_mg_rifles
+    HORDE.items["arccw_horde_aug_hbar"].infusions = ballistic_infusions_shotguns
     HORDE.items["arccw_horde_m2_browning"].infusions = ballistic_infusions_mg_rifles
     HORDE.items["arccw_horde_gau"].infusions = ballistic_infusions_mg_rifles
 
@@ -737,34 +737,34 @@ function HORDE:GetDefaultItemsData()
         { Survivor = true, Psycho = true, Assault = true, SpecOps = true, Reverend = true, Demolition = true },
         10, 10, nil, nil, { Assault = 2, Demolition = 2 }, nil, { HORDE.DMG_BALLISTIC, HORDE.DMG_BLAST, HORDE.DMG_FIRE, HORDE.DMG_COLD, HORDE.DMG_LIGHTNING } )
 
-    HORDE:CreateItem( "MG", "AUG HBAR", "arccw_horde_aug_hbar", 2000, 9,
+    HORDE:CreateItem( "MG", "AUG HBAR", "arccw_horde_aug_hbar", 2000, 5,
         "Steyr AUG HBAR.\nA light-support machine gun variant of the AUG assault rifle.",
         { Survivor = true, Psycho = true, Heavy = true, Juggernaut = true },
-        25, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
+        15, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateItem( "MG", "Negev", "arccw_horde_negev", 2250, 9,
         "IWI Negev.\nIWI developed light machine gun chambered in either 5.56x45mm intermediate rounds, or 7.62x51mm heavy rounds.",
         { Survivor = true, Psycho = true, Heavy = true, Juggernaut = true },
-        25, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
+        20, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateItem( "MG", "M249", "arccw_horde_m249", 2500, 9,
         "M249 light machine gun.\nA gas operated and air-cooled weapon of destruction.",
         { Survivor = true, Psycho = true, Heavy = true, Juggernaut = true },
-        40, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
+        30, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateItem( "MG", "L86 LSW", "arccw_horde_l86", 2500, 9,
         "SA80 L86 LSW.\nBullpup light machine gun operated by the British Army.",
         { Heavy = true, Juggernaut = true },
-        25, -1, nil, nil, { Heavy = 2 }, nil, { HORDE.DMG_BALLISTIC } )
+        20, -1, nil, nil, { Heavy = 2 }, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateItem( "MG", "RPD", "arccw_horde_rpd", 3000, 10,
         "Ruchnoy Pulemyot Degtyaryova.\na 7.62x39mm light machine gun developed in the Soviet Union by Vasily Degtyaryov.",
         { Heavy = true, Juggernaut = true },
-        50, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
+        40, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateItem( "MG", "MG4", "arccw_horde_mg4", 3000, 10,
         "Heckler & Koch MG4.\nA belt-fed 5.56 mm light machine gun designed to replace the MG3.",
         { Heavy = true, Juggernaut = true },
-        40, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
+        50, -1, nil, nil, nil, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateItem( "MG", "M240", "arccw_horde_m240", 3000, 10,
         "M240 Bravo.\nFires powerful 7.62x51mm NATO rounds.\nEquipped by U.S. Armed Forces.",
         { Heavy = true, Juggernaut = true },
-        50, -1, nil, nil, { Heavy = 3 }, nil, { HORDE.DMG_BALLISTIC } )
+        30, -1, nil, nil, { Heavy = 3 }, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateItem( "MG", "M2 Browning", "arccw_horde_m2_browning", 3500, 14,
         "M2 Browning .50 caliber machine gun.\nKnown for extensive use as a vehicle weapon or \naircraft armament by the United States since the 1930s.",
         { Heavy = true, Juggernaut = true },
