@@ -29,8 +29,6 @@ att.Hook_GetShootSound = function( _, fsound )
     if fsound == "arccw_go/negev/negev_04.wav" then return "weapons/go_negev/negev_shred_01.wav" end
 end
 
-
-
 if SERVER then
     att.Hook_BulletHit = function( _, data )
         local tr = data.tr
