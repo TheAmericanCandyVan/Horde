@@ -1139,6 +1139,11 @@ Hysteria lasts for 5 seconds and falls off sequentially.]],
         "Distinguished Cremator armor.\n\nFills up 100% of your armor bar.\nProvides 8% increased Fire damage resistance.",
         { Cremator = true },
         10, -1, { type = HORDE.ENTITY_PROPERTY_ARMOR, armor = 100 }, "items/armor_cremator.png", { Cremator = 30 }, 1 )
+    HORDE:CreateItem( "Equipment", "M26 Stunner", "arccw_horde_taser", 1500, 0,
+        "A Taser that stuns a single target for 3 seconds.\nStun cooldown is 10 seconds. \nRecharges after each shot, if the battery is completely discharged,\nit'll be unable to fire until it fully recharges.",
+       -- { Assault = true, Engineer = true, Hatcher = true, Ghost = true, SpecOps = true, Reverend = true, }, --intended recipiants so far
+             { Survivor = true, Psycho = true, Prototype = true, Assault = true, SpecOps = true, Reverend = true, Heavy = true, Juggernaut = true, Medic = true, Hatcher = true, Demolition = true, Ghost = true, Gunslinger = true, Engineer = true, Berserker = true, Samurai = true, ["Cyborg Ninja"] = true, Warden = true, Overlord = true, Cremator = true, Carcass = true, Warlock = true, Artificer = true, Necromancer = true }, -- temporary nuclear approach suggested by Jessi
+        100, -1, nil, nil, nil, nil, { HORDE.DMG_BLAST } )
 
     HORDE:GetDefaultGadgets()
     HORDE:GetDefaultItemInfusions()
