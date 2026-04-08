@@ -61,13 +61,13 @@ function HORDE:CreateItem( category, name, class, price, weight, description, wh
     HORDE:SetItemsData()
 end
 
-function HORDE:CreateGadgetItem( class, price, weight, whitelist, levels, dmgtype, hidden )
+function HORDE:CreateGadgetItem( class, price, weight, whitelist, levels, skull_tokens, dmgtype, hidden )
     local gadget = HORDE.gadgets[class]
     if not gadget then
         print( "[HORDE] Gadget " .. class .. " not found." )
         return
     end
-    HORDE:CreateItem( "Gadget", gadget.PrintName, class, price, weight, "", whitelist, 10, -1, { type = HORDE.ENTITY_PROPERTY_GADGET }, nil, levels, nil, dmgtype, nil, nil, hidden )
+    HORDE:CreateItem( "Gadget", gadget.PrintName, class, price, weight, "", whitelist, 10, -1, { type = HORDE.ENTITY_PROPERTY_GADGET }, nil, levels, skull_tokens, dmgtype, nil, nil, hidden )
 end
 
 HORDE.InvalidateHordeItemCache = 1
@@ -177,55 +177,55 @@ function HORDE:GetDefaultGadgets()
     HORDE:CreateGadgetItem( "gadget_armor_fusion", 3000, 2, { Heavy = true, Carcass = true, Juggernaut = true }, { Heavy = 25 } )
 
     -- Medic --
-    HORDE:CreateGadgetItem( "gadget_life_diffuser", 2000, 1, { Medic = true, Hatcher = true }, { Medic = 5 }, { HORDE.DMG_POISON } )
-    HORDE:CreateGadgetItem( "gadget_projectile_launcher_heal", 2500, 2, { Medic = true, Hatcher = true }, { Medic = 10 }, { HORDE.DMG_POISON } )
-    HORDE:CreateGadgetItem( "gadget_healing_beam", 2500, 2, { Medic = true, Hatcher = true }, { Medic = 15 }, { HORDE.DMG_POISON } )
+    HORDE:CreateGadgetItem( "gadget_life_diffuser", 2000, 1, { Medic = true, Hatcher = true }, { Medic = 5 }, nil, { HORDE.DMG_POISON } )
+    HORDE:CreateGadgetItem( "gadget_projectile_launcher_heal", 2500, 2, { Medic = true, Hatcher = true }, { Medic = 10 }, nil, { HORDE.DMG_POISON } )
+    HORDE:CreateGadgetItem( "gadget_healing_beam", 2500, 2, { Medic = true, Hatcher = true }, { Medic = 15 }, nil, { HORDE.DMG_POISON } )
     HORDE:CreateGadgetItem( "gadget_steroid", 3000, 1, { Medic = true, Hatcher = true }, { Medic = 20 } )
     HORDE:CreateGadgetItem( "gadget_aegis", 3000, 1, { Medic = true, Hatcher = true }, { Medic = 25 } )
 
     -- Demolition --
     HORDE:CreateGadgetItem( "gadget_proximity_defense", 2000, 1, { Demolition = true, Warlock = true }, { Demolition = 5 } )
-    HORDE:CreateGadgetItem( "gadget_projectile_launcher_blast", 2500, 2, { Demolition = true, Warlock = true }, { Demolition = 10 }, { HORDE.DMG_BLAST } )
+    HORDE:CreateGadgetItem( "gadget_projectile_launcher_blast", 2500, 2, { Demolition = true, Warlock = true }, { Demolition = 10 }, nil, { HORDE.DMG_BLAST } )
     HORDE:CreateGadgetItem( "gadget_nitrous_propellor", 2500, 2, { Demolition = true, Warlock = true }, { Demolition = 15 } )
-    HORDE:CreateGadgetItem( "gadget_ied", 3000, 3, { Demolition = true, Warlock = true }, { Demolition = 20 }, { HORDE.DMG_BLAST } )
-    HORDE:CreateGadgetItem( "gadget_nuke", 3000, 4, { Demolition = true, Warlock = true }, { Demolition = 25 }, { HORDE.DMG_BLAST } )
+    HORDE:CreateGadgetItem( "gadget_ied", 3000, 3, { Demolition = true, Warlock = true }, { Demolition = 20 }, nil, { HORDE.DMG_BLAST } )
+    HORDE:CreateGadgetItem( "gadget_nuke", 3000, 4, { Demolition = true, Warlock = true }, { Demolition = 25 }, nil, { HORDE.DMG_BLAST } )
 
     -- Ghost --
     HORDE:CreateGadgetItem( "gadget_optical_camouflage", 2500, 1, { Ghost = true, Gunslinger = true }, { Ghost = 5 } )
-    HORDE:CreateGadgetItem( "gadget_projectile_launcher_ballistic", 2500, 2, { Ghost = true, Gunslinger = true }, { Ghost = 10 }, { HORDE.DMG_BALLISTIC } )
-    HORDE:CreateGadgetItem( "gadget_death_mark", 2500, 2, { Ghost = true, Gunslinger = true }, { Ghost = 15 }, { HORDE.DMG_BLUNT } )
+    HORDE:CreateGadgetItem( "gadget_projectile_launcher_ballistic", 2500, 2, { Ghost = true, Gunslinger = true }, { Ghost = 10 }, nil, { HORDE.DMG_BALLISTIC } )
+    HORDE:CreateGadgetItem( "gadget_death_mark", 2500, 2, { Ghost = true, Gunslinger = true }, { Ghost = 15 }, nil, { HORDE.DMG_BLUNT } )
     HORDE:CreateGadgetItem( "gadget_assassin_optics", 3000, 2, { Ghost = true, Gunslinger = true }, { Ghost = 20 } )
 
     -- Engineer --
     HORDE:CreateGadgetItem( "gadget_quantum_tunnel", 2000, 1, { Engineer = true, Necromancer = true }, { Engineer = 5 } )
     HORDE:CreateGadgetItem( "gadget_voidout", 2250, 1, { Engineer = true, Necromancer = true }, { Engineer = 10 } )
     HORDE:CreateGadgetItem( "gadget_turret_pack", 2500, 2, { Engineer = true, Necromancer = true }, { Engineer = 15 } )
-    HORDE:CreateGadgetItem( "gadget_e_parasite", 2750, 2, { Engineer = true, Necromancer = true }, { Engineer = 20 }, { HORDE.DMG_BLUNT } )
+    HORDE:CreateGadgetItem( "gadget_e_parasite", 2750, 2, { Engineer = true, Necromancer = true }, { Engineer = 20 }, nil, { HORDE.DMG_BLUNT } )
     -- HORDE:CreateGadgetItem( "gadget_aerial_turret", 2500, 3, { Engineer = true, Necromancer = true }, { Engineer = 25 } )
 
     -- Berserker --
     HORDE:CreateGadgetItem( "gadget_chakra", 2500, 1, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 5 } )
-    HORDE:CreateGadgetItem( "gadget_flash", 2500, 2, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 10 }, { HORDE.DMG_SLASH } )
+    HORDE:CreateGadgetItem( "gadget_flash", 2500, 2, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 10 }, nil, { HORDE.DMG_SLASH } )
     HORDE:CreateGadgetItem( "gadget_berserk_armor", 2500, 2, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 15 } )
-    HORDE:CreateGadgetItem( "gadget_hemocannon", 3000, 3, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 20 }, { HORDE.DMG_SLASH } )
-    HORDE:CreateGadgetItem( "gadget_omnislash", 3250, 2, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 25 }, { HORDE.DMG_SLASH } )
+    HORDE:CreateGadgetItem( "gadget_hemocannon", 3000, 3, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 20 }, nil, { HORDE.DMG_SLASH } )
+    HORDE:CreateGadgetItem( "gadget_omnislash", 3250, 2, { Berserker = true, Samurai = true, ["Cyborg Ninja"] = true }, { Berserker = 25 }, nil, { HORDE.DMG_SLASH } )
 
     -- Warden --
     HORDE:CreateGadgetItem( "gadget_solar_array", 2000, 1, { Warden = true, Paladin = true }, { Warden = 5 } )
-    HORDE:CreateGadgetItem( "gadget_projectile_launcher_shock", 2500, 2, { Warden = true, Paladin = true }, { Warden = 10 }, { HORDE.DMG_LIGHTNING } )
+    HORDE:CreateGadgetItem( "gadget_projectile_launcher_shock", 2500, 2, { Warden = true, Paladin = true }, { Warden = 10 }, nil, { HORDE.DMG_LIGHTNING } )
     HORDE:CreateGadgetItem( "gadget_watchtower_pack", 2500, 1, { Warden = true, Paladin = true }, { Warden = 15 } )
-    HORDE:CreateGadgetItem( "gadget_shock_nova", 3000, 2, { Warden = true, Paladin = true }, { Warden = 20 }, { HORDE.DMG_LIGHTNING } )
+    HORDE:CreateGadgetItem( "gadget_shock_nova", 3000, 2, { Warden = true, Paladin = true }, { Warden = 20 }, nil, { HORDE.DMG_LIGHTNING } )
 
     -- Overlord Gadgets --
     HORDE:CreateGadgetItem( "gadget_shotgun_surgeon", 2000, 1, { Overlord = true, }, { Overlord = 5 } )
-    HORDE:CreateGadgetItem( "gadget_twinned_underbarrel", 2500, 2, { Overlord = true, }, { Overlord = 10 }, { HORDE.DMG_PHYSICAL } )
-    HORDE:CreateGadgetItem( "gadget_reinforcements", 2500, 2, { Overlord = true, }, { Overlord = 15 }, { HORDE.DMG_BALLISTIC } )
+    HORDE:CreateGadgetItem( "gadget_twinned_underbarrel", 2500, 2, { Overlord = true, }, { Overlord = 10 }, nil, { HORDE.DMG_PHYSICAL } )
+    HORDE:CreateGadgetItem( "gadget_reinforcements", 2500, 2, { Overlord = true, }, { Overlord = 15 }, nil, { HORDE.DMG_BALLISTIC } )
     HORDE:CreateGadgetItem( "gadget_emergency_reload", 3000, 3, { Overlord = true, }, { Overlord = 20 } )
     HORDE:CreateGadgetItem( "gadget_death_incarnate", 3500, 4, { Overlord = true, }, { Overlord = 25 } )
 
     -- Cremator
     HORDE:CreateGadgetItem( "gadget_butane_can", 2000, 1, { Cremator = true, Artificer = true }, { Cremator = 5 }, { HORDE.DMG_FIRE } )
-    HORDE:CreateGadgetItem( "gadget_projectile_launcher_fire", 2500, 2, { Cremator = true, Artificer = true }, { Cremator = 10 }, { HORDE.DMG_FIRE } )
+    HORDE:CreateGadgetItem( "gadget_projectile_launcher_fire", 2500, 2, { Cremator = true, Artificer = true }, { Cremator = 10 }, nil, { HORDE.DMG_FIRE } )
     HORDE:CreateGadgetItem( "gadget_barbeque", 2750, 1, { Cremator = true, Artificer = true }, { Cremator = 15 } )
     HORDE:CreateGadgetItem( "gadget_hydrogen_burner", 3000, 3, { Cremator = true, Artificer = true }, { Cremator = 20 } )
     -- HORDE:CreateGadgetItem( "gadget_ion_cannon", 3000, 3, { Cremator = true, Artificer = true }, { Cremator = 25 } )
@@ -235,13 +235,13 @@ function HORDE:GetDefaultGadgets()
     HORDE:CreateGadgetItem( "gadget_damage_shard", 500, 0 )
     HORDE:CreateGadgetItem( "gadget_agility_shard", 500, 0 )
     HORDE:CreateGadgetItem( "gadget_cleansing_shard", 500, 0 )
-    HORDE:CreateGadgetItem( "gadget_matriarch_womb", 50, 0, nil, nil, nil, true )
-    HORDE:CreateGadgetItem( "gadget_unstable_injection", 50, 0, nil, nil, nil, true )
-    HORDE:CreateGadgetItem( "gadget_hellfire_tincture", 50, 0, nil, nil, nil, true )
-    HORDE:CreateGadgetItem( "gadget_specimen_crystal_small", 200, 0, nil, nil, nil, true )
-    HORDE:CreateGadgetItem( "gadget_specimen_crystal_medium", 500, 0, nil, nil, nil, true )
-    HORDE:CreateGadgetItem( "gadget_specimen_crystal_large", 1000, 0, nil, nil, nil, true )
-    HORDE:CreateGadgetItem( "gadget_elixir", 1000, 0, nil, nil, nil, true )
+    HORDE:CreateGadgetItem( "gadget_matriarch_womb", 500, 0, nil,  { Survivor = 5, Assault = 5, Heavy = 5, Medic = 5, Demolition = 5, Ghost = 5, Engineer = 5, Berserker = 5, Warden = 5, Cremator = 5 } , 10, nil, false )
+    HORDE:CreateGadgetItem( "gadget_unstable_injection", 500, 0, nil,  { Survivor = 5, Assault = 5, Heavy = 5, Medic = 5, Demolition = 5, Ghost = 5, Engineer = 5, Berserker = 5, Warden = 5, Cremator = 5 } , 10, nil, false)
+    HORDE:CreateGadgetItem( "gadget_hellfire_tincture", 500, 0, nil,  { Survivor = 5, Assault = 5, Heavy = 5, Medic = 5, Demolition = 5, Ghost = 5, Engineer = 5, Berserker = 5, Warden = 5, Cremator = 5 } , 10, nil, false)
+    HORDE:CreateGadgetItem( "gadget_specimen_crystal_small", 200, 0, nil, nil, nil, nil, true )
+    HORDE:CreateGadgetItem( "gadget_specimen_crystal_medium", 500, 0, nil, nil, nil, nil, true )
+    HORDE:CreateGadgetItem( "gadget_specimen_crystal_large", 1000, 0, nil, nil, nil, nil, true )
+    HORDE:CreateGadgetItem( "gadget_elixir", 1000, 0, nil, nil, nil, nil, true )
 end
 
 function HORDE:GetDefaultItemInfusions()
