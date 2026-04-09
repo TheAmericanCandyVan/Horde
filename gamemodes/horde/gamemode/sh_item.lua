@@ -224,7 +224,7 @@ function HORDE:GetDefaultGadgets()
     HORDE:CreateGadgetItem( "gadget_death_incarnate", 3500, 4, { Overlord = true, }, { Overlord = 25 } )
 
     -- Cremator
-    HORDE:CreateGadgetItem( "gadget_butane_can", 2000, 1, { Cremator = true, Artificer = true }, { Cremator = 5 }, { HORDE.DMG_FIRE } )
+    HORDE:CreateGadgetItem( "gadget_butane_can", 2000, 1, { Cremator = true, Artificer = true }, { Cremator = 5 }, nil, { HORDE.DMG_FIRE } )
     HORDE:CreateGadgetItem( "gadget_projectile_launcher_fire", 2500, 2, { Cremator = true, Artificer = true }, { Cremator = 10 }, nil, { HORDE.DMG_FIRE } )
     HORDE:CreateGadgetItem( "gadget_barbeque", 2750, 1, { Cremator = true, Artificer = true }, { Cremator = 15 } )
     HORDE:CreateGadgetItem( "gadget_hydrogen_burner", 3000, 3, { Cremator = true, Artificer = true }, { Cremator = 20 } )
