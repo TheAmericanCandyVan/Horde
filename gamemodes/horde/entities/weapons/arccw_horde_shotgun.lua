@@ -167,13 +167,15 @@ SWEP.Animations = {
     },
     ["fire"] = {
         Source = "shoot2",
+        Time = 0.2,
         MinProgress = 0,
     },
     ["cycle"] = {
         Source = "after_reload",
+        Time = 0.45,
         ShellEjectAt = 0.2,
         SoundTable = {
-            {s = "Weapon_Shotgun.Special1", t = 0},
+            {s = "Weapon_Shotgun.Special1", t = 0.2},
         },
         TPAnim = ACT_HL2MP_GESTURE_RANGE_ATTACK_SHOTGUN,
     },
