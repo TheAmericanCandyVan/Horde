@@ -1057,7 +1057,8 @@ Hysteria lasts for 5 seconds and falls off sequentially.]],
     Leaves behind an unpleasant stench.
 
     LMB: Punch.
-    Hold for a charged punch that deals increased damage in an area.]],
+    Hold for a charged punch that deals increased damage in an area.
+    Upgrading increases damage and the area it affects]],
     { Carcass = true },
     -1, -1, nil, nil, nil, nil, { HORDE.DMG_PHYSICAL }, nil, { "Carcass" } )
 
