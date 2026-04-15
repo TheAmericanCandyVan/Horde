@@ -428,7 +428,7 @@ hook.Add("HUDPaint", "Horde_DrawHud", function ()
             secMat   = mind
         else
             secVal   = varmor
-            secMax   = 100
+            secMax   = math.max(MySelf:GetMaxArmor(), 0)
             secColor = Color(120, 195, 235)
             secMat   = armor
         end

@@ -14,6 +14,8 @@ ENT.BloodColor = "Red"
 
 ENT.HasMeleeAttack = true
 ENT.AnimTbl_MeleeAttack = { ACT_MELEE_ATTACK1 }
+ENT.MeleeAttackDistance = 32
+ENT.MeleeAttackDamageDistance = 50
 ENT.TimeUntilMeleeAttackDamage = 0.2
 ENT.NextAnyAttackTime_Melee = 0.5
 
