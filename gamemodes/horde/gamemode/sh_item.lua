@@ -1142,7 +1142,7 @@ Hysteria lasts for 5 seconds and falls off sequentially.]],
     HORDE:CreateItem( "Equipment", "M26 Stunner", "arccw_horde_taser", 1500, 0,
         "A Taser that stuns a single target for 3 seconds.\nStun cooldown is 10 seconds. \nRecharges after each shot, if the battery is completely discharged,\nit'll be unable to fire until it fully recharges.",
        { Assault = true, Engineer = true, Hatcher = true, Ghost = true, SpecOps = true, Reverend = true, Warden = true },
-        100, -1, nil, nil, nil, nil, { HORDE.DMG_BLAST } )
+        100, -1, nil, nil, nil, nil, { HORDE.DMG_SHOCK } )
 
     HORDE:GetDefaultGadgets()
     HORDE:GetDefaultItemInfusions()
