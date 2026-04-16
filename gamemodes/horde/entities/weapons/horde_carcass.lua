@@ -617,6 +617,7 @@ function SWEP:Think()
 		self:UpdateAttack()
 	elseif owner:KeyReleased( IN_ATTACK2 ) and inRange then
 		self:EndAttack( true )
+		owner:LagCompensation( false )
 	end
 
 	if SERVER then
