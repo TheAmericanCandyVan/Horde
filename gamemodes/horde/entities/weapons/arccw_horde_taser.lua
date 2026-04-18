@@ -29,9 +29,10 @@ SWEP.ViewModelFOV = 60
 SWEP.DefaultBodygroups = "000000000000"
 
 SWEP.Damage = 10
-SWEP.DamageMin = 0 -- damage done at maximum range
+SWEP.DamageMin = 10 -- damage done at maximum range
 SWEP.RangeMin = 6
 SWEP.Range = 6 -- in METRES
+SWEP.Distance = 200 -- max distance the bullet travels, measured in hammer units because consistency be damned
 SWEP.Penetration = 0
 SWEP.DamageType = DMG_SHOCK
 
@@ -96,56 +97,57 @@ if SERVER then
         local entHit = tr.Entity
         local bulletDmg = data.damage
 
-        if HORDE:IsEnemy( entHit ) then
-            entHit:Horde_AddDebuffBuildup( HORDE.Status_Stun, bulletDmg * 10, att )
-            if bulletDmg >= 1 then
+        if HORDE:IsEnemy( entHit ) and bulletDmg >= 1 then
             entHit:EmitSound("ArcCW_Horde.GSO.TASER.Hit")
-            end
+            entHit:Horde_AddDebuffBuildup( HORDE.Status_Stun, 5000, att )
         end
     end
-end
 
-SWEP.Hook_OnDeploy = function( wep )
 
-    if not wep.Discharged then
-        wep.RegenerationTimer = CurTime() + 0.1
+    SWEP.Hook_OnDeploy = function( wep )
+
+        if not wep.Discharged then
+            wep.RegenerationTimer = CurTime() + 0.1
+        end
+
+        if wep.HolsterTime then
+            local ammoCount = math.floor( ( CurTime() - wep.HolsterTime ) * wep.AmmoRegenAmount )
+            wep:SetClip1( math.min( wep:Clip1() + ammoCount, wep.Primary.ClipSize ) )
+        end
     end
 
-    if wep.HolsterTime then
-        local ammoCount = math.floor( ( CurTime() - wep.HolsterTime ) * wep.AmmoRegenAmount )
-        wep:SetClip1( math.min( wep:Clip1() + ammoCount, wep.Primary.ClipSize ) )
+    SWEP.Hook_OnHolster = function( wep )
+        if not wep.Discharged then
+            wep.RegenerationTimer = CurTime()
+        end
+            wep.HolsterTime = CurTime()
     end
-end
-
-SWEP.Hook_OnHolster = function( wep )
-    if not wep.Discharged then
-        wep.RegenerationTimer = CurTime()
-    end
-    wep.HolsterTime = CurTime()
 end
 
 SWEP.Hook_Think = function( wep )
+    if SERVER then
+        if wep.RegenerationTimer <= CurTime() and wep:Clip1() < wep.Primary.ClipSize then
+            wep:SetClip1( wep:Clip1() + wep.AmmoRegenAmount )
+            wep.RegenerationTimer = CurTime() + 0.1
+        end
 
-    if wep.RegenerationTimer <= CurTime() and wep:Clip1() < wep.Primary.ClipSize then
-        wep:SetClip1( wep:Clip1() + wep.AmmoRegenAmount )
-        wep.RegenerationTimer = CurTime() + 0.1
+        if wep:Clip1() > wep.Primary.ClipSize then
+            wep:SetClip1( wep.Primary.ClipSize )
+        end
     end
-
-    if wep:Clip1() > wep.Primary.ClipSize then
-        wep:SetClip1( wep.Primary.ClipSize )
-    end
-
     if wep:Clip1() <= 15 and not wep.Discharged then
         wep.Discharged = true
         wep:EmitSound( "ArcCW_Horde.GSO.TASER.Discharged" )
-        wep.RegenerationTimer = CurTime() + 3
+        if SERVER then
+            wep.RegenerationTimer = CurTime() + 3
+        end
     end
-
     if wep:Clip1() >= 100 and wep.Discharged then
+        wep:EmitSound( "ArcCW_Horde.GSO.TASER.Recharged" )
         wep.Discharged = false
-         wep:EmitSound( "ArcCW_Horde.GSO.TASER.Recharged" )
     end
 end
+
 
 SWEP.Hook_PostFireBullets = function( wep )
     wep.RegenerationTimer = CurTime() + 0.1
