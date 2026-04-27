@@ -87,7 +87,7 @@ PERK.Hooks.Horde_UseActivePerk = function( ply )
                     target:TakeDamageInfo( bashDmginfo )
 
                     local knockbackForce = ply:GetForward() * bashKnockback + bashKnockUp
-                    if not ent:Horde_GetBossProperties() then
+                    if not target:Horde_GetBossProperties() then
                         target:SetVelocity( knockbackForce )
                     end
                     target:Horde_AddDebuffBuildup( HORDE.Status_Stun, 19208, ply, targetPos )
