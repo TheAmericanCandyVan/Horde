@@ -59,7 +59,9 @@ PERK.Hooks.Horde_GetFallDamage = function( ply, speed, bonus )
                 end
 
                 local knockbackForce = ( ( toTarget * bashKnockback ) * dist ) + bashKnockUp
-                target:SetVelocity( knockbackForce )
+                if not ent:Horde_GetBossProperties() then
+                    target:SetVelocity( knockbackForce )
+                end
                 target:Horde_AddHinder( ply, ply:Horde_GetApplyDebuffDuration(), ply:Horde_GetApplyDebuffMore() )
             end
         end
