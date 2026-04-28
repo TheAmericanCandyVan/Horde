@@ -194,7 +194,7 @@ function SWEP:DealDamage()
 		local uppercut = false
 		local reinforced = owner:Horde_GetPerk("carcass_reinforced_arms")
 		local lvl = owner:Horde_GetUpgrade("horde_carcass")
-		local vmult = math.max(1, owner:GetVelocity():Length() / 180)
+		local vmult = math.max(1, owner:GetVelocity():Length() / 200)
 		if anim == "fists_left" then
 			dmginfo:SetDamageForce(owner:GetRight() * 4912 * scale + owner:GetForward() * 9998 * scale) -- Yes we need those specific numbers
 		elseif anim == "fists_right" then
