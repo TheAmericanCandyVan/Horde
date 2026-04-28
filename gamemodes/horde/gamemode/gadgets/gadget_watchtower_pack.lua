@@ -1,5 +1,5 @@
 GADGET.PrintName = "Watchtower Pack"
-GADGET.Description = "Deploys an extra watchtower."
+GADGET.Description = "Deploys an extra ammo watchtower."
 GADGET.Icon = "items/gadgets/watchtower_pack.png"
 GADGET.Duration = 0
 GADGET.Cooldown = 30
