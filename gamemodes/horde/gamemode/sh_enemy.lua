@@ -192,7 +192,7 @@ function HORDE:GetDefaultEnemiesData ()
 
     -- First Bosses
     HORDE:CreateEnemy("Mutated Hulk", "npc_vj_mutated_hulk", 1, 5, true, 1, 1, 10, 1, nil, nil, nil,
-    {is_boss = true, end_wave = true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 1.0, music = "#horde/music/mutated_hulk.mp3", music_duration = 168}, nil, nil, nil, nil, {gadget = "gadget_unstable_injection", drop_rate = 0.5})
+    {is_boss = true, end_wave = true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 1.0, music = "#horde/music/mutated_hulk.mp3", music_duration = 168}, nil, nil, nil, nil, {gadget = "gadget_unstable_injection", drop_rate = 0.75})
     HORDE:CreateEnemy("Plague Berserker", "npc_vj_horde_platoon_berserker", 0.35, 5, true, 1, 1, 10, 1, nil, nil, nil,
     {is_boss = true, end_wave = true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 1.0, music = "#horde/music/plague_berserker.mp3", music_duration = 152})
     HORDE:CreateEnemy("Plague Heavy", "npc_vj_horde_platoon_heavy", 0.35, 5, true, 1, 1, 10, 1, nil, nil, nil,
@@ -200,9 +200,9 @@ function HORDE:GetDefaultEnemiesData ()
     HORDE:CreateEnemy("Plague Demolition","npc_vj_horde_platoon_demolitionist", 0.35, 5, true, 1, 1, 10, 1, nil, nil, nil,
     {is_boss = true, end_wave = true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 1.0, music = "#horde/music/plague_demolitionist.mp3", music_duration = 152})
     HORDE:CreateEnemy("Hell Knight", "npc_vj_horde_hellknight", 1, 5, true, 1, 1, 10, 1, nil, nil, nil,
-    {is_boss = true, end_wave=true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 0.5, music = "#horde/music/hell_knight.mp3", music_duration = 129}, "none", nil, nil, nil, {gadget = "gadget_hellfire_tincture", drop_rate = 0.5})
+    {is_boss = true, end_wave=true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 0.5, music = "#horde/music/hell_knight.mp3", music_duration = 129}, "none", nil, nil, nil, {gadget = "gadget_hellfire_tincture", drop_rate = 0.75})
     HORDE:CreateEnemy("Xen Host Unit", "npc_vj_horde_xen_host_unit", 1, 5, true, 1, 1, 10, 1, nil, nil, nil,
-    {is_boss = true, end_wave = true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 0.5, music = "#horde/music/xen_host_unit.mp3", music_duration = 106}, "none", nil, nil, nil, {gadget = "gadget_matriarch_womb", drop_rate = 0.5})
+    {is_boss = true, end_wave = true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 0.5, music = "#horde/music/xen_host_unit.mp3", music_duration = 106}, "none", nil, nil, nil, {gadget = "gadget_matriarch_womb", drop_rate = 0.75})
     HORDE:CreateEnemy("Xen Necromancer Unit", "npc_vj_horde_xen_necromancer_unit", 1, 5, true, 1, 1, 10, 1, nil, nil, nil,
     {is_boss = true, end_wave = true, unlimited_enemies_spawn = true, enemies_spawn_threshold = 0.5, music = "#horde/music/xen_reanimator_unit.mp3", music_duration = 64})
 

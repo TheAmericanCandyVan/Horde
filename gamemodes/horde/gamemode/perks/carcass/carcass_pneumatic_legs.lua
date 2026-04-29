@@ -28,7 +28,7 @@ end
 PERK.Hooks.Horde_GetFallDamage = function( ply, speed, bonus )
     if ply:Horde_GetPerk( "carcass_pneumatic_legs" ) then
         bonus.less = bonus.less * 0
-        local dmg = math.max( 0, math.ceil( 0.2418 * speed - 141.75 ) ) * 7
+        local dmg = math.max( 0, math.ceil( 0.2418 * speed - 141.75 ) ) * 6
         local rad, pos = 320, ply:GetPos()
         if dmg < 10 then return end
         local dmginfo = DamageInfo()
@@ -59,7 +59,9 @@ PERK.Hooks.Horde_GetFallDamage = function( ply, speed, bonus )
                 end
 
                 local knockbackForce = ( ( toTarget * bashKnockback ) * dist ) + bashKnockUp
-                target:SetVelocity( knockbackForce )
+                if not target:Horde_GetBossProperties() then
+                    target:SetVelocity( knockbackForce )
+                end
                 target:Horde_AddHinder( ply, ply:Horde_GetApplyDebuffDuration(), ply:Horde_GetApplyDebuffMore() )
             end
         end

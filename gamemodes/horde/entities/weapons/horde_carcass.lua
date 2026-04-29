@@ -185,7 +185,7 @@ function SWEP:DealDamage()
 			bonus.more = bonus.more * math.min(20, vel / 100)
 		elseif grappendix and vel >= 400 and ((vel < 1000) or (vel > 1020 )) and owner:Horde_GetGadget() == "gadget_exoskeleton" then
 			bonus.more = bonus.more * math.min(20, owner:GetVelocity():Length() / 100)
-		elseif owner:GetVelocity():Length() >= 350 then
+		elseif owner:GetVelocity():Length() >= 360 then
 			bonus.more = bonus.more * math.max(1, owner:GetVelocity():Length() / 180)
 		end
 
@@ -194,7 +194,7 @@ function SWEP:DealDamage()
 		local uppercut = false
 		local reinforced = owner:Horde_GetPerk("carcass_reinforced_arms")
 		local lvl = owner:Horde_GetUpgrade("horde_carcass")
-		local vmult = math.max(1, owner:GetVelocity():Length() / 180)
+		local vmult = math.max(1, owner:GetVelocity():Length() / 200)
 		if anim == "fists_left" then
 			dmginfo:SetDamageForce(owner:GetRight() * 4912 * scale + owner:GetForward() * 9998 * scale) -- Yes we need those specific numbers
 		elseif anim == "fists_right" then
@@ -652,5 +652,33 @@ function SWEP:Think()
 				end
 			end
 		end
+	end
+end
+
+if CLIENT then
+	surface.CreateFont("Carcass_velocity", { font = "Trebuchet18", size = ScreenScale(5.7), weight = 1000, extended = true, blursize = 0, scanlines = 0, antialias = false, underline = false, italic = false, strikeout = false, symbol = false, rotary = false, shadow = false, additive = false, outline = true, })
+end
+
+function SWEP:DrawHUD()
+	if CLIENT then
+		local CLR_W = Color(255, 255, 255, 230)
+		local owner = self:GetOwner()
+		local vel = owner:GetVelocity():Length()
+		local veltext = "Velocity:"
+		local velocity =  math.Truncate( vel, 0)
+		local grappendix = owner:Horde_GetPerk("carcass_grappendix")
+
+		draw.RoundedBoxEx(10, (ScrW() / 2) - ScreenScale(14), ScrH() / 1.8 + ScreenScale(1), ScreenScale(30), ScreenScale(12), Color(146,16,92,100), true, false, false, true)
+		draw.RoundedBoxEx(10, (ScrW() / 2) - ScreenScale(15), ScrH() / 1.8, ScreenScale(30), ScreenScale(12), Color(40,40,40,150), true, false, false, true)
+		if grappendix and vel >= 400 and owner:Horde_GetGadget() ~= "gadget_exoskeleton" then
+			CLR_W = Color(0, 255, 179, 230)
+		elseif grappendix and vel >= 400 and ((vel < 1000) or (vel > 1020 )) and owner:Horde_GetGadget() == "gadget_exoskeleton" then
+			CLR_W = Color(0, 255, 179, 230)
+		elseif vel >= 360 then
+			CLR_W = Color(21, 255, 0, 230)
+		else
+			CLR_W = Color(255, 0, 0, 230)
+		end
+		draw.DrawText(veltext .. "\n" .. velocity, "Carcass_velocity", ScrW() / 2, ScrH() / 1.8, CLR_W, TEXT_ALIGN_CENTER, true)
 	end
 end
