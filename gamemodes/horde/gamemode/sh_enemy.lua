@@ -636,6 +636,95 @@ function HORDE:GetDefaultEnemiesData ()
             -- Wave 8
             HORDE:CreateEnemy("Plague Elite", "npc_vj_horde_plague_elite", 0.01, 8, true, 1, 1, 4, 1)
         end
+         if GetConVar( "horde_difficulty" ):GetInt() == 7 then -- 7TH CIRCLE 
+            -- Wave 1
+            HORDE:CreateEnemy("Crawler",        "npc_vj_horde_crawler",         0.50, 1, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Fast Zombie",    "npc_vj_horde_fast_zombie",     0.25, 1, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Poison Zombie",  "npc_vj_horde_poison_zombie",   0.15, 1, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Vomitter",       "npc_vj_horde_vomitter",        0.10, 1, true, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Burnzie",        "npc_vj_horde_burnzie",         0.10, 1, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Blight",         "npc_vj_horde_blight",          0.05, 1, true, 1, 1, 1.5, 1)
+            -- Wave 2
+            HORDE:CreateEnemy("Poison Zombie",              "npc_vj_horde_poison_zombie",   0.15, 2, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Vomitter",                   "npc_vj_horde_vomitter",        0.10, 2, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Screecher",                  "npc_vj_horde_screecher",       0.10, 2, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Armed H.E.V. Zombie",        "npc_vj_ezt_weapbie",           0.08, 2, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("H.E.V. Zombie Shotgunner",   "npc_vj_ezt_shotbie",           0.08, 2, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Manhackbie",                 "npc_vj_ezt_manhackbie",        0.10, 2, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Subordinate",                "npc_vj_horde_subordinate",     0.10, 2, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Burnzie",                    "npc_vj_horde_burnzie",         0.10, 2, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Eschar",                     "npc_vj_horde_eschar",          0.10, 2, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Blight",                     "npc_vj_horde_blight",          0.05, 2, true, 1, 1, 1.5, 1)
+            -- Wave 3
+            HORDE:CreateEnemy("Screecher",                  "npc_vj_horde_screecher",       0.10, 3, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Armed H.E.V. Zombie",        "npc_vj_ezt_weapbie",           0.08, 3, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("H.E.V. Zombie Shotgunner",   "npc_vj_ezt_shotbie",           0.08, 3, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Manhackbie",                 "npc_vj_ezt_manhackbie",        0.10, 3, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Subordinate",                "npc_vj_horde_subordinate",     0.10, 3, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Eschar",                     "npc_vj_horde_eschar",          0.10, 3, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Blight",                     "npc_vj_horde_blight",          0.05, 3, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Zombine",                    "npc_vj_horde_zombine",         0.10, 3, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Charred Zombine",            "npc_vj_horde_charred_zombine", 0.05, 3, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Hulk",                       "npc_vj_horde_hulk",            0.05, 3, true, 1, 1, 2, 1)
+            HORDE:CreateEnemy("Scorcher",                   "npc_vj_horde_scorcher",        0.08, 3, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Sorcerer",                   "npc_vj_horde_sorcerer",        0.02, 3, true, 1, 1, 4, 1)
+            -- Wave 4
+            HORDE:CreateEnemy("Zombine",            "npc_vj_horde_zombine",                 0.10, 4, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Charred Zombine",    "npc_vj_horde_charred_zombine",         0.05, 4, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Hulk",               "npc_vj_horde_hulk",                    0.05, 4, true, 1, 1, 2, 1)
+            HORDE:CreateEnemy("Scorcher",           "npc_vj_horde_scorcher",                0.08, 4, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Sorcerer",           "npc_vj_horde_sorcerer",                0.02, 4, true, 1, 1, 4, 1)
+            HORDE:CreateEnemy("Blight",             "npc_vj_horde_blight",                  0.05, 4, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Mutated Hulk Clone", "npc_vj_mutated_hulk",                  0.05, 4, true, 0.2, 0.5, 4, 0.85, nil, nil, nil) --last nil is spawn limit
+            HORDE:CreateEnemy("Hell Knight Clone", "npc_vj_horde_hellknight",               0.05, 4, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Xen Necromancer Clone", "npc_vj_horde_xen_necromancer_unit", 0.05, 4, true, 0.2, 0.4, 4, 0.85, nil, nil, nil)
+
+            -- First Boss Wave
+            HORDE:CreateEnemy("Charred Zombine",    "npc_vj_horde_charred_zombine",             0.05, 5, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Hulk",               "npc_vj_horde_hulk",                        0.05, 5, true, 1, 1, 2, 1)
+            HORDE:CreateEnemy("Scorcher",           "npc_vj_horde_scorcher",                    0.08, 5, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Sorcerer",           "npc_vj_horde_sorcerer",                    0.02, 5, true, 1, 1, 4, 1)
+            HORDE:CreateEnemy("Blight",             "npc_vj_horde_blight",                      0.05, 5, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Mutated Hulk Clone", "npc_vj_mutated_hulk",                      0.05, 5, true, 0.2, 0.5, 4, 0.85, nil, nil, nil) --last nil is spawn limit
+            HORDE:CreateEnemy("Hell Knight Clone", "npc_vj_horde_hellknight",                   0.05, 5, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Xen Necromancer Clone", "npc_vj_horde_xen_necromancer_unit",     0.05, 5, true, 0.2, 0.4, 4, 0.85, nil, nil, nil) --"Plague Demolition","npc_vj_horde_platoon_demolitionist",
+            HORDE:CreateEnemy("Plague Berserker Clone", "npc_vj_horde_platoon_berserker",       0.05, 5, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Plague Heavy Clone", "npc_vj_horde_platoon_heavy",               0.05, 5, true, 0.2, 0.3, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Plague Demolition Clone","npc_vj_horde_platoon_demolitionist",   0.05, 5, true, 0.2, 0.3, 4, 0.85, nil, nil, 2) --may god help us all
+            -- HORDE:CreateEnemy( name, class, weight, wave, elite, health_scale, damage_scale, reward_scale, model_scale, color, weapon, spawn_limit, boss_properties, mutation, skin, model, spawn_min, gadget_drop )
+            -- Wave 6
+            HORDE:CreateEnemy("Lesion",         "npc_vj_horde_lesion",                      0.01, 6, true, 1, 1, 4, 1)
+            HORDE:CreateEnemy("Plague Soldier", "npc_vj_horde_plague_soldier",              0.05, 6, false, 1, 1, 1, 1)
+            HORDE:CreateEnemy("Blight",         "npc_vj_horde_blight",                      0.05, 6, true, 1, 1, 1.5, 1)
+            HORDE:CreateEnemy("Weeper",         "npc_vj_horde_weeper",                      0.03, 6, true, 1, 1, 2, 1)
+            HORDE:CreateEnemy("Yeti",           "npc_vj_horde_yeti",                        0.02, 6, true, 1, 1, 2.5, 1)
+            HORDE:CreateEnemy("Mutated Hulk Clone", "npc_vj_mutated_hulk",                  0.05, 6, true, 0.2, 0.5, 4, 0.85, nil, nil, nil) --last nil is spawn limit
+            HORDE:CreateEnemy("Hell Knight Clone", "npc_vj_horde_hellknight",               0.05, 6, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Xen Necromancer Clone", "npc_vj_horde_xen_necromancer_unit", 0.05, 6, true, 0.2, 0.4, 4, 0.85, nil, nil, nil)
+            -- Wave 7
+            HORDE:CreateEnemy("Weeper", "npc_vj_horde_weeper",                              0.03, 7, true, 1, 1, 2, 1)
+            HORDE:CreateEnemy("Yeti",   "npc_vj_horde_yeti",                                0.02, 7, true, 1, 1, 2.5, 1)
+            HORDE:CreateEnemy("Mutated Hulk Clone", "npc_vj_mutated_hulk",                  0.05, 7, true, 0.2, 0.5, 4, 0.85, nil, nil, nil) --last nil is spawn limit
+            HORDE:CreateEnemy("Hell Knight Clone", "npc_vj_horde_hellknight",               0.05, 7, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Xen Necromancer Clone", "npc_vj_horde_xen_necromancer_unit", 0.05, 7, true, 0.2, 0.4, 4, 0.85, nil, nil, nil)
+            -- Wave 8
+            HORDE:CreateEnemy("Plague Elite", "npc_vj_horde_plague_elite",                  0.01, 8, true, 1, 1, 4, 1)
+            HORDE:CreateEnemy("Mutated Hulk Clone", "npc_vj_mutated_hulk",                  0.05, 8, true, 0.2, 0.5, 4, 0.85, nil, nil, nil) --last nil is spawn limit
+            HORDE:CreateEnemy("Hell Knight Clone", "npc_vj_horde_hellknight",               0.05, 8, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Xen Necromancer Clone", "npc_vj_horde_xen_necromancer_unit", 0.05, 8, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Plague Heavy Clone", "npc_vj_horde_platoon_heavy",           0.05, 8, true, 0.2, 0.3, 4, 0.85, nil, nil, nil)
+            --Wave 9
+            HORDE:CreateEnemy("Mutated Hulk Clone", "npc_vj_mutated_hulk",                  0.05, 9, true, 0.2, 0.5, 4, 0.85, nil, nil, nil) --last nil is spawn limit
+            HORDE:CreateEnemy("Hell Knight Clone", "npc_vj_horde_hellknight",               0.05, 9, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Xen Necromancer Clone", "npc_vj_horde_xen_necromancer_unit", 0.05, 9, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Plague Heavy Clone", "npc_vj_horde_platoon_heavy",           0.05, 9, true, 0.2, 0.3, 4, 0.85, nil, nil, nil)
+            --Wave 10
+            HORDE:CreateEnemy("Mutated Hulk Clone", "npc_vj_mutated_hulk",                  0.05, 10, true, 0.2, 0.5, 4, 0.85, nil, nil, nil) --last nil is spawn limit
+            HORDE:CreateEnemy("Hell Knight Clone", "npc_vj_horde_hellknight",               0.05, 10, true, 0.2, 0.5, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Xen Necromancer Clone", "npc_vj_horde_xen_necromancer_unit", 0.05, 10, true, 0.2, 0.4, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Plague Heavy Clone", "npc_vj_horde_platoon_heavy",           0.05, 10, true, 0.2, 0.3, 4, 0.85, nil, nil, nil)
+            HORDE:CreateEnemy("Plague Berserker Clone", "npc_vj_horde_platoon_berserker",   0.05, 10, true, 0.2, 0.4, 4, 0.85, nil, nil, nil)
+        end
     end
 
     HORDE:NormalizeEnemiesWeight()

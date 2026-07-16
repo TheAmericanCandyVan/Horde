@@ -146,6 +146,30 @@ HORDE.Difficulty = {
         xpMultiStart = 3,
         xpMultiEnd = 5,
     },
+        [7] = {
+        name = "7TH CIRCLE", -- OF HELL. Comically difficult difficulty, slightly more enemies, beefed up health. Gods must be strong.
+        damageMultiplier = 2.5,
+        enemyCountMultiplier = 1.6, -- i dont think we need any more
+        rewardMultiplier = 0.4,
+        healthMultiplier = 3.2,
+        startMoneyMultiplier = 3.1, -- you're gonna need it
+        spawnRadiusMultiplier = 0.4,
+        maxEnemiesAliveScaleFactor = 2.5,
+        poisonHeadcrabDamage = 90,
+        statusDurationBonus = 6,
+        breakHealthLeft = 0.1,
+        shockDamageIncrease = 0.75,
+        frostbiteSlow = 0.8,
+        eliteHealthScaleAdd = 0.2,
+        eliteHealthScaleMultiplier = 1.6,
+        eliteMutationProbability = 0.5,
+        mutationProbability = 0.5,
+        additionalPack = 6,
+        additionalAmmoBoxes = 10,
+        hemorrhagePercentage = 0.5,
+        xpMultiStart = 8,
+        xpMultiEnd = 15,
+    },
 }
 
 -- Making sure that all all keys are present
