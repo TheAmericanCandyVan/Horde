@@ -12,22 +12,29 @@ SWEP.WeaponCamBone = tag_camera
 
 SWEP.PrintName = "Flare Revolver"
 SWEP.Trivia_Class = "Pistol"
-SWEP.Trivia_Desc = "Colt Python loaded with incindiary rounds. A perfect starter for a fledgling firebug."
+SWEP.Trivia_Desc = "Colt Navy Revolver modified to fire flares. A perfect starter for a fledgling firebug."
 
 SWEP.Trivia_Manufacturer = "Colt"
-SWEP.Trivia_Calibre = ".357 Magnum"
+SWEP.Trivia_Calibre = ".410 Flare Shotshells"
 SWEP.Trivia_Mechanism = "Double-Action"
 SWEP.Trivia_Country = "United States of America"
-SWEP.Trivia_Year = 2000
+SWEP.Trivia_Year = 1851
 
 SWEP.Slot = 1
 
 SWEP.UseHands = true
 
-SWEP.ViewModel = "models/weapons/c_357.mdl"
-SWEP.MirrorVMWM = false
+SWEP.ViewModel = "models/horde/weapons/kf/c_flaregun.mdl"
+SWEP.MirrorVMWM = true
 SWEP.WorldModel = "models/weapons/w_357.mdl"
-SWEP.ViewModelFOV = 65
+SWEP.ViewModelFOV = 70
+
+SWEP.WorldModelOffset = {
+    scale = 1.1,
+    pos        =    Vector(-14, 2, 2.2),
+    ang        =    Angle(-91, 0, 180),
+    bone       =    "ValveBiped.Bip01_R_Hand",
+}
 
 SWEP.Damage = 0
 SWEP.DamageMin = 0
@@ -68,14 +75,12 @@ SWEP.MoveDispersion = 100
 
 SWEP.Primary.Ammo = "357" -- what ammo type the gun uses
 
-SWEP.ShootVol = 75 -- volume of shoot sound
-SWEP.ShootPitch = 100 -- pitch of shoot sound
+SWEP.ShootVol = 75
 
-SWEP.ShootSound =			{"weapons/flaregun/fire.wav"}
---SWEP.DistantShootSound =	"weapons/fesiugmw2/fire_distant/anaconda.wav"
-SWEP.DistantShootSound = "arccw_go/revolver/revolver-1_distant.wav"
+SWEP.ShootSound = ")weapons/flaregun/fire.wav"
+SWEP.DistantShootSound = "^horde/weapons/distant/generic_distant.wav"
 
-SWEP.MuzzleEffect = "muzzleflash_pistol_deagle"
+SWEP.MuzzleEffect = "muzzleflash_pistol_cleric"
 
 SWEP.MuzzleEffectAttachment = 1 -- which attachment to put the muzzle on
 SWEP.CaseEffectAttachment = 2 -- which attachment to put the case effect on
@@ -85,10 +90,11 @@ SWEP.SightedSpeedMult = 0.8
 SWEP.SightTime = 0.05
 
 SWEP.IronSightStruct = {
-    Pos = Vector(-4.7, -10, 0.5),
-    Ang = Angle(0, 0, 2),
+    Pos = Vector(0, 0, 0),
+    Ang = Angle(0, 0, 0),
     ViewModelFOV = 65,
     Magnification = 1,
+    CrosshairInSights = true
 }
 
 SWEP.HoldtypeHolstered = "normal"
@@ -97,45 +103,21 @@ SWEP.HoldtypeSights = "revolver"
 
 SWEP.AnimShoot = ACT_HL2MP_GESTURE_RANGE_ATTACK_PISTOL
 
-SWEP.ActivePos = Vector(0, 0, 1)
+SWEP.ActivePos = Vector(3, 3, -1)
 SWEP.ActiveAng = Angle(0, 0, 0)
 
-SWEP.CustomizePos = Vector(13.92, 1, -1.08)
+SWEP.CustomizePos = Vector(13.92, -3, -1.08)
 SWEP.CustomizeAng = Angle(6.8, 37.7, 10.3)
 
-SWEP.HolsterPos = Vector(3, 0, 0)
+SWEP.HolsterPos = Vector(5, 2, 0)
 SWEP.HolsterAng = Angle(-10, 25, 0)
 
-SWEP.SprintPos = Vector(0, 0, 1)
-SWEP.SprintAng = Angle(0, 0, 0)
-
-SWEP.BarrelOffsetSighted = Vector(0, 0, -1)
+SWEP.BarrelOffsetSighted = Vector(5, 0, -1)
 SWEP.BarrelOffsetHip = Vector(2, 0, -2)
 
 SWEP.BarrelLength = 18
 
 SWEP.ExtraSightDist = 5
-
-SWEP.AttachmentElements = {
-    ["rail"] = {
-        VMElements = {
-            {
-                Model = "models/weapons/arccw_go/atts/pistol_rail.mdl",
-                Bone = "v_weapon.223_Parent",
-                Offset = {
-                    pos = Vector(-0.05, -1.6, 6),
-                    ang = Angle(90, 0, -90),
-                },
-                Scale = Vector(0.95, 0.95, 0.95)
-            }
-        },
-        AttPosMods = {
-            [2] = {
-                vpos = Vector(-0.05, -1.2, 6),
-            }
-        }
-    },
-}
 
 SWEP.Attachments = {
     {
@@ -152,46 +134,29 @@ SWEP.Attachments = {
 SWEP.Animations = {
     ["idle"] = {
         Source = "idle",
-        Time = 2/30,
-        TPAnim = ACT_HL2MP_IDLE_357,
     },
     ["draw"] = {
         Source = "draw",
-        Time = 29/30 /4,
-        LHIK = true,
-        LHIKIn = 0,
-        LHIKOut = 0.35,
     },
     ["holster"] = {
-        Source = "putaway",
-        Time = 33/30 /4,
-        LHIK = true,
-        LHIKIn = 0,
-        LHIKOut = 0.35,
+        Source = "holster",
     },
     ["fire"] = {
         Source = "fire",
-        Time = 12/30,
+        Time = 3,
     },
     ["fire_iron"] = {
         Source = "fire_ads",
-        Time = 12/30,
+        Time = 3,
     },
     ["reload"] = {
         Source = "reload",
-        Time = 3,
+        Time = 2,
         TPAnim = ACT_HL2MP_GESTURE_RELOAD_REVOLVER,
         SoundTable = {
-						{s = "weapons/pistol/357_reload1.wav", t = 0},
-                        {s = "weapons/pistol/357_reload3.wav", t = 0.4},
-                        {s = "weapons/pistol/357_reload4.wav", t = 0.8},
-					},
-        Checkpoints = {24, 97, 131},
-        FrameRate = 37,
-        LHIK = true,
-        LHIKIn = 0.5,
-        LHIKOut = 0.6,
-        LastClip1OutTime = 1.5,
+			{s = "weapons/357/357_reload1.wav", t = 0.2},
+            {s = "weapons/357/357_reload3.wav", t = 1},
+		}
     },
 }
 
